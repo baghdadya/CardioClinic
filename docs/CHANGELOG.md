@@ -1,5 +1,5 @@
 # CHANGELOG.md
-## CardioClinic
+## Maadi Clinic (CardioClinic)
 
 All notable changes to this project will be documented in this file.
 
@@ -8,63 +8,158 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ---
 
+## [0.9.0] - 2026-04-07
+
+### Added
+- Medication catalog enrichment: 300 SQL mappings for common Egyptian cardiology drugs (brand → generic name, category, dosage)
+- OpenFDA API enrichment script for automated drug lookup (scripts/enrich_medications.py)
+- 638 of 1,749 medications now have generic names and categories
+- Fixed garbled medication entry from legacy encoding
+
+---
+
+## [0.8.1] - 2026-04-07
+
+### Fixed
+- Medications page was returning all 1,749 records with full interactions JSONB (megabytes of data)
+- Added server-side pagination (50 per page) and lightweight response model (no interactions in list view)
+- Server-side search replaces client-side filtering
+
+---
+
+## [0.8.0] - 2026-04-07
+
+### Added
+- **Global Admin role** — full system access, purple badge
+- Role-based access control (RBAC): receptionist sees only Appointments, nurse sees clinical pages, doctor sees everything, admin sees everything + user management
+- Email field in Edit User dialog
+- Password reset field in Edit User dialog ("New Password" — leave blank to keep current)
+- Delete User button with confirmation dialog (permanent delete, not just deactivate)
+- Alembic migration for admin role enum and column widening (phone varchar 20→50, smoking_packs_day numeric 3,1→5,1)
+
+### Access Matrix
+| Role | Access |
+|---|---|
+| Receptionist | Dashboard, Appointments |
+| Nurse | + Patients, Medications, Instructions, Risk Calc, Drug Interactions |
+| Doctor | + User Management, Audit Log, Prescriptions (write) |
+| Admin | Full access to everything |
+
+---
+
+## [0.7.2] - 2026-04-07
+
+### Added
+- Password reset in User Management (New Password field in Edit User dialog)
+
+---
+
+## [0.7.1] - 2026-04-07
+
+### Fixed
+- **Blank patient detail page** — `crypto.randomUUID()` crashes on HTTP (non-HTTPS) contexts. Replaced with Math.random fallback in toast.tsx and ClinicalForms.tsx
+- **All dialog save buttons not working** — same root cause: toast crash prevented success callback from executing, making dialogs appear stuck
+- Added Delete User button and confirmation dialog in User Management
+- Deactivate button styled amber, delete button styled red
+
+---
+
+## [0.7.0] - 2026-04-07
+
+### Added
+- **Legacy data import complete**: 977,330 records from DBHT.mdb (82MB Access 97 database)
+  - 23,589 patients, 23,589 present histories, 23,589 past/family histories
+  - 23,630 examinations, 74,089 investigations, 666,649 lab results
+  - 59,423 follow-ups, 81,090 prescriptions with 494,899 items
+  - 1,480 medications from legacy catalog, 70 investigation types, 132 dosage instructions
+- Patient Archive button (soft delete with confirmation dialog)
+- Import script for MasMidic + Medication tables (prescription history)
+- Widened phone columns (20→50 chars) and smoking_packs_day (3,1→5,1) for legacy data
+
+### Fixed
+- User edit dialog was sending all fields including unchanged ones, causing silent API failures
+- Edit dialog now only sends changed fields
+
+---
+
+## [0.6.9] - 2026-04-07
+
+### Fixed
+- Audit log restore: dates stored as strings and enums as "Sex.male" format couldn't be written back to PostgreSQL. Added type coercion (date/enum/UUID parsing) in restore endpoint
+- Audit restore modal now only shows changed fields with red strikethrough (current) and green bold (restored)
+- Patient edit button was missing onClick handler — added full edit dialog with all patient fields
+- Old enum values in audit log now serialized as plain values ("male") not "Sex.male"
+
+---
+
+## [0.6.8] - 2026-04-07
+
+### Added
+- Egyptian drug catalog sync: 180 Egyptian cardiac medications with Arabic names
+- POST /api/medications/sync-egyptian endpoint (DoctorOnly, idempotent upsert)
+- "Sync Egyptian Brands" button on Medications page (blue)
+- RxNorm drug interaction sync from NLM API
+- "Sync Drug Database" card on Drug Interactions page
+
+---
+
+## [0.6.7] - 2026-04-07
+
+### Fixed
+- FDA bulk import 500 error: drug names > 255 chars caused StringDataRightTruncationError. Fixed with truncation
+- Drug interactions "No medications found": API response shape mismatch. Fixed array handling
+- "Never synced" after RxNorm sync: interactions_synced_at was only set when new interactions found. Fixed to always set timestamp
+
+---
+
+## [0.5.0] - 2026-04-06
+
+### Added
+- Modern card hub dashboard (dual theme: classic sidebar + modern cards)
+- Theme toggle button (persisted in localStorage)
+- PWA: offline support with IndexedDB sync queue, service worker, install prompt
+- Sync conflict resolution modal (3-screen: compare, keep-local, keep-server)
+- Online/offline/syncing indicator pill
+- Patient instruction templates (bilingual CRUD, preview, print)
+- Bilingual prescription PDF with Dr. Baghdady's header/footer
+- Prescription sharing: email, WhatsApp, PDF download
+- Risk calculators: Framingham ASCVD, CHA2DS2-VASc, HEART, HAS-BLED, Wells DVT/PE
+- Audit log with data restore capability (before/after diff)
+- Recharts vitals trending chart on patient detail
+- Patient detail: 8 clinical tabs with all clinical forms working
+
+### Fixed
+- White screen crashes on PatientsPage, UsersPage, AppointmentsPage (ToastProvider missing)
+- PatientDetailPage crash (null guard on useRiskAssessment)
+
+---
+
 ## [0.2.0] - 2026-04-06
 
 ### Added
-- Dashboard stats API endpoint (GET /api/dashboard/stats)
-- User management API (GET/POST/PATCH/DELETE /api/users) — doctor-only
-- Medications catalog page (frontend) — 56 drugs with Arabic names, search
-- Audit log page (frontend) — paginated, filterable
-- Risk calculators page (frontend) — ASCVD, CHA2DS2-VASc, HEART Score
-- Drug interactions page (frontend) — search medications, check interactions
-- Users management page (frontend) — BROKEN, white screen
-- Add Patient dialog on PatientsPage — BROKEN, white screen
-- 7 clinical record dialogs (ClinicalForms.tsx) — Add Present History, Edit Past/Family, Add Examination, Add Investigation, Add Follow-up, Add Medication, Add Prescription
-- Sidebar navigation expanded: Risk Calculators, Drug Interactions, User Management
-- Version indicator (v0.2.0) on login page and sidebar
-- Seed data: 56 cardiology medications with Arabic names, interactions, contraindications (scripts/seed_medications.sql)
-- Seed data: 20 dosage instruction templates (bilingual EN/AR)
+- Dashboard stats API endpoint
+- User management API (doctor-only)
+- Medications catalog page (56 drugs with Arabic names)
+- Audit log page (paginated, filterable)
+- Risk calculators page (ASCVD, CHA2DS2-VASc, HEART Score)
+- Drug interactions page
+- 7 clinical record dialogs
+- Seed data: 56 medications, 20 dosage instructions
 
 ### Fixed
-- Docker proxy: frontend Vite proxy now correctly routes /api to backend container
-- Missing email-validator dependency (pydantic[email])
-- PYTHONPATH in backend Dockerfile for Alembic
-- Initial Alembic migration generated and applied (17 tables)
-
-### Known Issues
-- PatientsPage crashes to white screen (import errors from dialog code)
-- UsersPage crashes to white screen (component errors)
-- Appointment creation dialog crashes after save
-- Clinical form dialogs untested (can't reach patient detail)
-- Appointment dialog asks for raw UUID instead of patient name search
+- Docker proxy, missing email-validator, PYTHONPATH for Alembic
 
 ---
 
 ## [0.1.0] - 2026-04-05
 
 ### Added
-- PROJECT_CONTRACT.md — architectural decisions and guardrails
-- DATA_MODEL.md — complete PostgreSQL schema (17 tables)
-- NEW_SESSION_PROMPT.md — Claude Code bootstrap document
-- HANDOVER.md — project state tracking
-- All 17 SQLAlchemy models
-- Backend: 53 API endpoints across 13 routers
-- Frontend: 10 UI components, 3 layouts, 5 pages (Login, Dashboard, Patients, Patient Detail, Appointments)
-- Auth: Argon2 + JWT access/refresh tokens
-- PDF generation (WeasyPrint, bilingual prescriptions)
-- Email service (SMTP, async, bilingual)
-- Risk calculators (ASCVD, CHA2DS2-VASc, HEART)
-- Drug interaction checking
-- Audit logging on all CRUD operations
+- Initial architecture: React 19 + FastAPI + PostgreSQL 16 + Docker Compose
+- 17 SQLAlchemy models, 53 API endpoints, 10 UI components
+- Auth: Argon2 + JWT, PDF generation, email service
+- Risk calculators, drug interaction checking, audit logging
 - PWA manifest + service worker scaffolding
-- Docker Compose setup (PostgreSQL 16, FastAPI, Vite)
-
-### Technical Decisions
-- Frontend: React 19 + TypeScript + Vite + Tailwind v4
-- Backend: Python 3.12 + FastAPI + SQLAlchemy 2.0
-- Database: PostgreSQL 16
-- Auth: JWT with access/refresh tokens, Argon2 hashing
 
 ---
 
-*Version numbers must match across: frontend/package.json, backend/pyproject.toml, HANDOVER.md*
+*Version source of truth: frontend/src/version.ts — bump on every release.*

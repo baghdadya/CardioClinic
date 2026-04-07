@@ -1,7 +1,7 @@
 # HANDOVER.md
 ## Maadi Clinic (CardioClinic) — Project State
 
-**Version:** 0.7.1
+**Version:** 0.9.0
 **Last Updated:** 2026-04-07
 **Author:** Ahmed + Claude
 
@@ -11,32 +11,33 @@
 
 Maadi Clinic is a modern cardiology practice management system replacing a legacy VB6/Access application (DBHT.mdb) from 2001. Built for Dr. Yasser M.K. Baghdady's practice in Maadi, Cairo, Egypt. The legacy database had 23,589 patients and 25+ years of clinical data (977,330 total records), all of which have been successfully imported.
 
-The application is live at **http://23.88.105.81** on a Hetzner Cloud CX22 server.
+The application is live at **https://app.maadiclinic.com** on a Hetzner Cloud CX22 server.
 
 ---
 
-## Current State (v0.7.1 — 2026-04-07)
+## Current State (v0.9.0 — 2026-04-07)
 
 | Area | Status |
 |------|--------|
 | Architecture | Done |
-| Data model | Done — 19 tables via Alembic |
+| Data model | Done — 19 tables via 4 Alembic migrations |
 | Backend API | Done — 65+ endpoints, 16 routers |
 | Frontend pages | Done — 12 pages, all working |
-| Database migrations | Done — 3 Alembic versions applied |
+| Database migrations | Done — 4 Alembic versions (initial, instructions, rxcui, admin role) |
 | Legacy data import | Done — 977,330 records imported from DBHT.mdb |
-| Seed data | Done — merged into legacy import |
+| Medication enrichment | Done — 638 of 1,749 drugs mapped with generic names/categories |
+| RBAC | Done — admin, doctor, nurse, receptionist with role-based nav |
 | Docker (dev) | Done — 3 containers (db, backend, frontend) on localhost |
-| Docker (prod) | Done — 3 containers on Hetzner CX22 (23.88.105.81) |
+| Docker (prod) | Done — 4 containers on Hetzner (Claude GUI nginx + our 3) |
+| HTTPS/SSL | Done — Let's Encrypt via Claude GUI nginx on app.maadiclinic.com |
 | PWA/Offline | Done — service worker, offline page, sync queue, conflict resolution |
 | Dual Theme | Done — classic sidebar + modern card hub, toggle button |
 | Drug Interactions | Done — RxNorm sync from NLM |
-| Medication Catalog | Done — FDA import, Egyptian brands sync, legacy dawa imported |
+| Medication Catalog | Done — FDA import, Egyptian brands sync, 300 SQL enrichment mappings |
 | Prescriptions | Done — PDF generation, email, WhatsApp sharing |
-| Audit Log | Done — with data restore, before/after diff |
+| Audit Log | Done — with data restore, changed-fields-only diff view |
 | Testing | Not started |
-| HTTPS/SSL | Not yet — running on HTTP only |
-| Domain name | Not yet — using bare IP |
+| Equipment Integration | Pending — questionnaire sent to Dr. Yasser |
 
 ---
 
@@ -44,18 +45,20 @@ The application is live at **http://23.88.105.81** on a Hetzner Cloud CX22 serve
 
 | Item | Value |
 |------|-------|
+| Domain | https://app.maadiclinic.com |
 | Provider | Hetzner Cloud |
-| Plan | CX22 (2 vCPU, 4GB RAM, 40GB SSD) |
+| Plan | CX22 (2 vCPU, 4GB RAM, 40GB SSD, ~€3.29/mo) |
 | OS | Ubuntu 24.04 LTS |
 | IP | 23.88.105.81 |
 | IPv6 | 2a01:4f8:1c1e:76a7::/64 |
-| SSH User | root |
+| SSH User | root (password changed by user on first login) |
 | App directory | /opt/maadi-clinic |
 | Docker Compose file | docker-compose.prod.yml |
-| Database password | In /opt/maadi-clinic/.env (DB_PASSWORD) |
-| Secret key | In /opt/maadi-clinic/.env (SECRET_KEY) |
-| Firewall | UFW — ports 22, 80, 443 open |
-| iptables note | Must run `iptables -I DOCKER-USER -p tcp --dport 80 -j ACCEPT` after reboot (UFW/Docker conflict) |
+| Env file | /opt/maadi-clinic/.env (DOMAIN, DB_PASSWORD, SECRET_KEY) |
+| SSL | Let's Encrypt via Claude GUI nginx container (maadi-clinic_nginx_1) |
+| SSL nginx config | /opt/maadi-clinic/nginx.conf — proxies / to frontend:80, /api to backend:8000 |
+| IMPORTANT | docker-compose.prod.yml frontend uses `expose: ["80"]` NOT `ports: ["80:80"]` — Claude GUI nginx owns the host ports |
+| DB password note | After every pg_dump restore, must run: `ALTER USER cardioclinic PASSWORD '...'` and reset user passwords in UI |
 
 ### Production Deployment Steps
 
@@ -286,6 +289,8 @@ python scripts/import_legacy.py --mdb-path Source/DBHT.mdb --db-url "postgresql:
 | backend/app/services/email.py | Async SMTP email sending |
 | backend/app/services/risk_calculators.py | Framingham, HEART, CHA2DS2-VASc, HAS-BLED, Wells |
 | scripts/import_legacy.py | Legacy Access DB import (access_parser + psycopg2) |
+| scripts/enrich_common_meds.sql | 300 brand→generic SQL mappings for Egyptian cardiology drugs |
+| scripts/enrich_medications.py | OpenFDA API enrichment for remaining drugs |
 | scripts/seed_medications.sql | 56 cardiology medications with Arabic names |
 | scripts/seed_instructions.sql | 7 bilingual patient instruction templates |
 | scripts/seed_egyptian_brands.sql | 42 Egyptian brand medications |
@@ -294,34 +299,50 @@ python scripts/import_legacy.py --mdb-path Source/DBHT.mdb --db-url "postgresql:
 
 ## Known Issues / Quirks
 
-1. **HTTP only** — Site runs on HTTP. `crypto.randomUUID()` was replaced with fallback for non-HTTPS contexts. HTTPS needs a domain name + Caddy/Let's Encrypt setup.
-2. **UFW + Docker conflict** — After server reboot, must run `iptables -I DOCKER-USER -p tcp --dport 80 -j ACCEPT` to allow external traffic. Install `iptables-persistent` to make it survive reboots.
+1. **DB restore overwrites passwords** — Every pg_dump restore resets production user passwords to local defaults (admin/admin). Must manually reset passwords in User Management after each restore. Also must run `ALTER USER cardioclinic PASSWORD '...'` to fix DB connection.
+2. **Claude GUI nginx owns port 80/443** — docker-compose.prod.yml must use `expose: ["80"]` not `ports: ["80:80"]` for frontend. Claude GUI's nginx container (maadi-clinic_nginx_1) handles SSL and proxies to our containers.
 3. **Patient DOB approximate** — Legacy data only stored age, not DOB. All imported patients have DOB of Jan 1 of calculated birth year.
 4. **Prescription items** — Legacy prescriptions store drug name in both `dosage` and `instructions` fields since the legacy format didn't distinguish between medication name and dosage instructions clearly.
 5. **Browser caching** — After deployments, users may need to open incognito or hard-refresh to see changes.
+6. **1,111 medications still missing metadata** — 638 of 1,749 enriched. Remaining are Egyptian-specific brands not in FDA database. Can be manually edited or enriched with future Egyptian pharmacy API if one becomes available.
+7. **crypto.randomUUID() fallback** — Replaced with Math.random for non-HTTPS contexts. Now on HTTPS so less critical, but fallback remains for safety.
 
 ---
 
-## Bugs Fixed in This Session (2026-04-07)
+## Bugs Fixed in Session (2026-04-07)
 
 1. **Blank patient detail page** — `crypto.randomUUID()` crashes on HTTP. Fixed with Math.random fallback.
-2. **Dialog save buttons not working** — Same root cause (toast component used crypto.randomUUID, crash prevented success callback). Fixed.
-3. **Audit log restore failing** — Dates stored as strings and enums stored as "Sex.male" format couldn't be written back to PostgreSQL. Added type coercion (date/enum/UUID parsing) in restore endpoint.
-4. **Audit log showing all fields** — Restore modal now only shows changed fields with red strikethrough (current) and green bold (restored).
-5. **Edit patient button did nothing** — No onClick handler. Added full edit dialog with all patient fields.
-6. **User edit dialog flicker/no close** — Was sending all fields including unchanged ones. Fixed to only send changed fields.
+2. **All dialog save buttons not working** — Same root cause (toast component crash prevented success callback). Fixed.
+3. **Audit log restore failing** — Dates/enums stored as strings couldn't write back to PostgreSQL. Added type coercion.
+4. **Audit log showing all fields** — Restore modal now only shows changed fields with highlighting.
+5. **Edit patient button did nothing** — Added full edit dialog with all patient fields.
+6. **User edit dialog flicker/no close** — Was sending all unchanged fields. Fixed to only send diffs.
 7. **FDA bulk import 500 error** — Drug names > 255 chars. Fixed with truncation.
-8. **TypeScript build errors** — Unused imports, wrong variant types, Framer Motion ease type. All fixed for production build.
+8. **TypeScript build errors** — Unused imports, wrong variant types, Framer Motion ease tuples. All fixed.
+9. **Medications page infinite loading** — Returning all 1,749 records with massive interactions JSONB. Fixed with pagination (50/page) and lightweight response model.
+10. **Production port 80 conflict** — Claude GUI nginx already bound port 80. Removed host port binding from docker-compose.prod.yml.
+11. **Production DB password mismatch** — After DB restore, password didn't match .env. Fixed with ALTER USER.
+12. **Garbled medication entry** — Legacy encoding produced corrupted text. Renamed to "(Unknown)" and deactivated.
 
 ---
 
-## Remaining Work
+## Remaining Work / Roadmap
+
+### v1.0 — Awaiting Dr. Yasser's Approval
+- Dr. Yasser is testing v0.9.0 at https://app.maadiclinic.com
+- Once approved, bump to v1.0
+
+### Post-v1.0: Equipment Integration
+- Questionnaire sent to Dr. Yasser about clinic equipment (echo, ECG, Holter, stress test, BP monitor)
+- Priority: DICOM integration for echo machine (auto-import measurements)
+- Also possible: HL7 FHIR, PDF/image upload, direct device APIs
+- Build depends on specific equipment brands/models
 
 ### High Priority
-1. **HTTPS** — Get a domain name, configure Caddy with Let's Encrypt for SSL
-2. **Change production passwords** — The server root password was shared in chat; change it
-3. **Email configuration** — Set up SMTP in .env for prescription email sharing
-4. **Backup strategy** — Automated daily pg_dump to external storage
+1. **Email configuration** — Set up SMTP in .env for prescription email sharing
+2. **Backup strategy** — Automated daily pg_dump to external storage
+3. **Fix DB restore password issue** — Standardize credentials between local and production, or build post-restore password reset script
+4. **Remaining medication enrichment** — 1,111 drugs still missing generic names. Manual editing or future Egyptian pharmacy API
 
 ### Medium Priority
 5. **WhatsApp sharing** — Currently generates share link, needs testing with real numbers
@@ -332,10 +353,10 @@ python scripts/import_legacy.py --mdb-path Source/DBHT.mdb --db-url "postgresql:
 
 ### Low Priority
 10. **Testing** — pytest for backend, Playwright for frontend
-11. **Theme toggle on production** — Works but needs user guidance
-12. **Mobile responsive polish** — Works on tablet, needs phone-specific testing
-13. **Performance** — Pagination works well for 23K patients, but patient detail loads all clinical data eagerly
+11. **Mobile responsive polish** — Works on tablet, needs phone-specific testing
+12. **Performance** — Patient detail loads all clinical data eagerly; could lazy-load tabs
 
 ---
 
 *Update this document at every session end or release.*
+

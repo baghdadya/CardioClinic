@@ -178,7 +178,7 @@ export default function AppointmentsPage() {
       await api.post("/appointments", newForm);
       setShowNewDialog(false);
       resetForm();
-      toast({ title: "Appointment created", variant: "default" });
+      toast({ title: "Appointment created", variant: "success" });
       fetchAppointments();
     } catch (err: unknown) {
       const msg =

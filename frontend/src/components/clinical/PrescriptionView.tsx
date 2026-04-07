@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
-  CheckCircle,
   Download,
   Mail,
   MessageCircle,
@@ -64,7 +63,7 @@ function StatusBadge({ status }: { status: string }) {
 export function PrescriptionView({
   patientId,
   prescription: rx,
-  patientName,
+  patientName: _patientName,
   onUpdate,
 }: PrescriptionViewProps) {
   const { toast } = useToast();

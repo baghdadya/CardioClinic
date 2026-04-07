@@ -463,7 +463,7 @@ export default function AuditLogPage() {
                 Cancel
               </Button>
               <Button
-                variant="default"
+                variant="primary"
                 size="sm"
                 disabled={restoring}
                 onClick={handleRestore}

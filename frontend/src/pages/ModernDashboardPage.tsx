@@ -23,7 +23,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import { format, isToday, parseISO } from "date-fns";
+import { format, parseISO } from "date-fns";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -179,7 +179,7 @@ const container = {
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] } },
+  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] as const } },
 };
 
 /* ---------- main component ---------- */
@@ -338,7 +338,7 @@ export default function ModernDashboardPage() {
         animate="show"
         className="grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4"
       >
-        {statCards.map((card, i) => (
+        {statCards.map((card, _i) => (
           <motion.div
             key={card.title}
             variants={fadeUp}

@@ -77,11 +77,6 @@ type TabKey = "ascvd" | "cha2ds2" | "heart";
 /*  Helpers                                                            */
 /* ------------------------------------------------------------------ */
 
-function Skeleton({ className }: { className?: string }) {
-  return (
-    <div className={cn("animate-pulse rounded-md bg-muted", className)} />
-  );
-}
 
 const riskColor = (category: string) => {
   const c = category.toLowerCase();

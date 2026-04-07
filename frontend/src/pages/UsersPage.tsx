@@ -55,7 +55,7 @@ export default function UsersPage() {
 
   // Edit dialog
   const [editUser, setEditUser] = useState<User | null>(null);
-  const [editForm, setEditForm] = useState({ full_name: "", role: "" as UserRole, is_active: true });
+  const [editForm, setEditForm] = useState({ full_name: "", role: "" as UserRole, is_active: true, password: "" });
   const [editSubmitting, setEditSubmitting] = useState(false);
   const [editErrors, setEditErrors] = useState<Record<string, string>>({});
 
@@ -110,7 +110,7 @@ export default function UsersPage() {
   // --- Edit User ---
   const openEditDialog = (user: User) => {
     setEditUser(user);
-    setEditForm({ full_name: user.full_name, role: user.role, is_active: user.is_active });
+    setEditForm({ full_name: user.full_name, role: user.role, is_active: user.is_active, password: "" });
     setEditErrors({});
   };
 
@@ -129,6 +129,7 @@ export default function UsersPage() {
       if (editForm.full_name !== editUser.full_name) payload.full_name = editForm.full_name;
       if (editForm.role !== editUser.role) payload.role = editForm.role;
       if (editForm.is_active !== editUser.is_active) payload.is_active = editForm.is_active;
+      if (editForm.password.trim()) payload.password = editForm.password.trim();
       if (Object.keys(payload).length === 0) {
         setEditUser(null);
         return;
@@ -398,6 +399,13 @@ export default function UsersPage() {
               value={editForm.full_name}
               onChange={(e) => setEditForm({ ...editForm, full_name: e.target.value })}
               error={editErrors.full_name}
+            />
+            <Input
+              label="New Password"
+              type="password"
+              placeholder="Leave blank to keep current password"
+              value={editForm.password}
+              onChange={(e) => setEditForm({ ...editForm, password: e.target.value })}
             />
             <Select
               label="Role"

@@ -17,6 +17,7 @@ class UserUpdate(BaseModel):
     full_name: str | None = Field(default=None, min_length=1, max_length=255)
     role: UserRole | None = None
     is_active: bool | None = None
+    password: str | None = Field(default=None, min_length=4, max_length=128)
 
 
 @router.get("", response_model=list[UserResponse])
@@ -61,6 +62,10 @@ async def update_user(
     update_data = data.model_dump(exclude_unset=True)
     if not update_data:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="No fields to update")
+
+    # Handle password separately — hash it before storing
+    if "password" in update_data:
+        user.password_hash = hash_password(update_data.pop("password"))
 
     for field, value in update_data.items():
         setattr(user, field, value)

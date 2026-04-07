@@ -17,6 +17,7 @@ from app.schemas.medication import (
     EgyptianSyncResponse,
     FdaBulkImportRequest,
     FdaBulkImportResponse,
+    MedicationListItem,
     MedicationMasterCreate,
     MedicationMasterResponse,
     MedicationMasterUpdate,
@@ -46,13 +47,19 @@ async def create_medication(data: MedicationMasterCreate, db: DbSession, current
     return med
 
 
-@router.get("/api/medications", response_model=list[MedicationMasterResponse])
+@router.get("/api/medications", response_model=list[MedicationListItem])
 async def list_medications(
     db: DbSession, current_user: ClinicalStaff,
     search: str | None = Query(None, min_length=1),
     active_only: bool = True,
+    page: int = Query(1, ge=1),
+    page_size: int = Query(50, ge=1, le=200),
 ):
-    query = select(MedicationMaster)
+    query = select(
+        MedicationMaster.id, MedicationMaster.name, MedicationMaster.name_ar,
+        MedicationMaster.generic_name, MedicationMaster.category,
+        MedicationMaster.default_dosage, MedicationMaster.is_active,
+    )
     if active_only:
         query = query.where(MedicationMaster.is_active.is_(True))
     if search:
@@ -61,8 +68,9 @@ async def list_medications(
             MedicationMaster.name_ar.ilike(f"%{search}%"),
             MedicationMaster.generic_name.ilike(f"%{search}%"),
         ))
-    result = await db.execute(query.order_by(MedicationMaster.name))
-    return result.scalars().all()
+    offset = (page - 1) * page_size
+    result = await db.execute(query.order_by(MedicationMaster.name).offset(offset).limit(page_size))
+    return result.all()
 
 
 @router.patch("/api/medications/{med_id}", response_model=MedicationMasterResponse)

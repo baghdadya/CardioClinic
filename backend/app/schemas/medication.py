@@ -41,6 +41,19 @@ class MedicationMasterResponse(BaseModel):
     model_config = {"from_attributes": True}
 
 
+class MedicationListItem(BaseModel):
+    """Lightweight response for medication list — excludes heavy interactions JSONB."""
+    id: UUID
+    name: str
+    name_ar: Optional[str] = None
+    generic_name: Optional[str] = None
+    category: Optional[str] = None
+    default_dosage: Optional[str] = None
+    is_active: bool
+
+    model_config = {"from_attributes": True}
+
+
 class FdaBulkImportRequest(BaseModel):
     categories: Optional[list[str]] = None
 

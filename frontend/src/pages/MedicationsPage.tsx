@@ -602,11 +602,15 @@ export default function MedicationsPage() {
   const [bulkFdaOpen, setBulkFdaOpen] = useState(false);
   const [egyptianSyncOpen, setEgyptianSyncOpen] = useState(false);
 
+  const [page, setPage] = useState(1);
+  const pageSize = 50;
+
   const fetchMedications = useCallback(async () => {
     setLoading(true);
     try {
-      const { data } = await api.get("/medications");
-      // Handle both array and { items: Medication[] } response shapes
+      const params: Record<string, unknown> = { page, page_size: pageSize };
+      if (search.trim()) params.search = search.trim();
+      const { data } = await api.get("/medications", { params });
       const items: Medication[] = Array.isArray(data) ? data : data.items ?? [];
       setMedications(items);
     } catch {
@@ -614,22 +618,18 @@ export default function MedicationsPage() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [page, search]);
 
   useEffect(() => {
     fetchMedications();
   }, [fetchMedications]);
 
-  const filtered = medications.filter((med) => {
-    if (!search.trim()) return true;
-    const q = search.toLowerCase();
-    return (
-      med.name.toLowerCase().includes(q) ||
-      med.name_ar?.toLowerCase().includes(q) ||
-      med.generic_name?.toLowerCase().includes(q) ||
-      med.category?.toLowerCase().includes(q)
-    );
-  });
+  // Debounce search — reset to page 1 on new search
+  useEffect(() => {
+    setPage(1);
+  }, [search]);
+
+  const filtered = medications;
 
   const openEdit = (med: Medication) => {
     setEditingMed(med);
@@ -852,6 +852,25 @@ export default function MedicationsPage() {
           </div>
         )}
       </motion.div>
+
+      {/* Pagination */}
+      <div className="mt-4 flex items-center justify-between">
+        <button
+          onClick={() => setPage((p) => Math.max(1, p - 1))}
+          disabled={page <= 1}
+          className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary disabled:opacity-50"
+        >
+          Previous
+        </button>
+        <span className="text-sm text-muted-foreground">Page {page}</span>
+        <button
+          onClick={() => setPage((p) => p + 1)}
+          disabled={filtered.length < pageSize}
+          className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary disabled:opacity-50"
+        >
+          Next
+        </button>
+      </div>
 
       {/* Add Dialog */}
       <MedicationFormDialog

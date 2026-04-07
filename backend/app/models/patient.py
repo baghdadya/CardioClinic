@@ -21,14 +21,14 @@ class Patient(Base, UUIDPrimaryKey, TimestampMixin):
     marital_status: Mapped[Optional[MaritalStatus]] = mapped_column(
         Enum(MaritalStatus, name="marital_status_enum"), nullable=True
     )
-    phone: Mapped[Optional[str]] = mapped_column(String(20), nullable=True, index=True)
-    phone_alt: Mapped[Optional[str]] = mapped_column(String(20), nullable=True)
+    phone: Mapped[Optional[str]] = mapped_column(String(50), nullable=True, index=True)
+    phone_alt: Mapped[Optional[str]] = mapped_column(String(50), nullable=True)
     email: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
     address: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     smoking_status: Mapped[Optional[SmokingStatus]] = mapped_column(
         Enum(SmokingStatus, name="smoking_status_enum"), nullable=True
     )
-    smoking_packs_day: Mapped[Optional[Decimal]] = mapped_column(Numeric(3, 1), nullable=True)
+    smoking_packs_day: Mapped[Optional[Decimal]] = mapped_column(Numeric(5, 1), nullable=True)
     notes: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     deleted_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), nullable=True)
 

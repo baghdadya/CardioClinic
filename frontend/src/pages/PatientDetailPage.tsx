@@ -32,6 +32,7 @@ import {
   Gauge,
   Clock,
   Edit,
+  Trash2,
   ShieldAlert,
   HeartPulse,
 } from "lucide-react";
@@ -570,6 +571,24 @@ export default function PatientDetailPage() {
     }
   };
 
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+
+  const handleDeletePatient = async () => {
+    setDeleting(true);
+    try {
+      await api.delete(`/patients/${id}`);
+      toast({ variant: "success", title: "Patient archived" });
+      navigate("/patients", { replace: true });
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Failed to archive patient";
+      toast({ variant: "error", title: message });
+    } finally {
+      setDeleting(false);
+      setShowDeleteConfirm(false);
+    }
+  };
+
   // Load patient
   useEffect(() => {
     const fetchPatient = async () => {
@@ -760,6 +779,10 @@ export default function PatientDetailPage() {
           <Button variant="secondary" size="sm" onClick={openEditPatient}>
             <Edit size={15} />
             Edit Patient
+          </Button>
+          <Button variant="destructive" size="sm" onClick={() => setShowDeleteConfirm(true)}>
+            <Trash2 size={15} />
+            Archive
           </Button>
         </div>
       </div>
@@ -1414,6 +1437,24 @@ export default function PatientDetailPage() {
         onClose={() => setShowFollowUpDialog(false)}
         onSuccess={refreshTab}
       />
+
+      {/* Archive Patient Confirmation */}
+      <Dialog open={showDeleteConfirm} onClose={() => { if (!deleting) setShowDeleteConfirm(false); }}>
+        <DialogHeader>
+          <DialogTitle>Archive Patient</DialogTitle>
+          <DialogDescription>
+            Are you sure you want to archive <strong>{patient?.full_name}</strong>? The record will be hidden but not permanently deleted. It can be restored from the audit log.
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <Button variant="secondary" onClick={() => setShowDeleteConfirm(false)} disabled={deleting}>
+            Cancel
+          </Button>
+          <Button variant="destructive" onClick={handleDeletePatient} loading={deleting}>
+            Archive Patient
+          </Button>
+        </DialogFooter>
+      </Dialog>
 
       {/* Edit Patient Dialog */}
       <Dialog open={showEditPatientDialog} onClose={() => { if (!editSubmitting) setShowEditPatientDialog(false); }}>

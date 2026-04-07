@@ -230,7 +230,8 @@ def import_patients(db: AccessParser, cur, legacy_to_uuid: dict, admin_uid: str,
         marital = map_marital(reader.get(i, "MARRITAL STATUS"))
         smoking_status, packs = map_smoking(reader.get(i, "SMOKING"))
         address = decode_text(reader.get(i, "ADDRESS"))
-        phone = decode_text(reader.get(i, "TEL"))
+        phone_raw = decode_text(reader.get(i, "TEL"))
+        phone = phone_raw[:50] if phone_raw else None
         email = decode_text(reader.get(i, "EMAIL"))
         notes = decode_text(reader.get(i, "REMARK"))
         dob = dob_from_age(reader.get(i, "AGE"))
@@ -792,6 +793,102 @@ def import_dosage_instructions(db: AccessParser, cur, dry_run: bool) -> int:
     return imported
 
 
+def import_patient_medications(db: AccessParser, cur, legacy_to_uuid: dict, admin_uid: str, dry_run: bool) -> int:
+    """Import MasMidic + Medication → prescriptions + prescription_items.
+
+    MasMidic = prescription sessions (MID, patient ID, Date)
+    Medication = items in each session (MID, drug name, dosage instructions)
+    """
+    mas_data = db.parse_table("MasMidic")
+    med_data = db.parse_table("Medication")
+    mas_reader = TableReader(mas_data)
+    med_reader = TableReader(med_data)
+
+    mas_count = len(mas_reader)
+    med_count = len(med_reader)
+
+    if mas_count == 0:
+        print("  No records found in MasMidic.")
+        return 0
+
+    print(f"  Processing {mas_count} prescription sessions, {med_count} medication items...", end=" ", flush=True)
+
+    # Build MID → patient_uuid + date map
+    mid_map: dict[int, tuple[str, Any]] = {}
+    for i in range(mas_count):
+        mid = to_int(mas_reader.get(i, "MID"))
+        legacy_id = to_int(mas_reader.get(i, "ID"))
+        if mid is None or legacy_id is None:
+            continue
+        patient_uuid = legacy_to_uuid.get(legacy_id)
+        if patient_uuid is None:
+            continue
+        rx_date = to_datetime(mas_reader.get(i, "Date"))
+        mid_map[mid] = (patient_uuid, rx_date)
+
+    # Group medications by MID
+    mid_items: dict[int, list[tuple[str, str]]] = {}
+    for i in range(med_count):
+        mid = to_int(med_reader.get(i, "MID"))
+        if mid is None or mid not in mid_map:
+            continue
+        drug_name = decode_text(med_reader.get(i, "Dawa")) or ""
+        dosage = decode_text(med_reader.get(i, "Gora")) or ""
+        if drug_name:
+            mid_items.setdefault(mid, []).append((drug_name[:255], dosage[:500]))
+
+    # Build medication name → UUID cache
+    med_name_cache: dict[str, str] = {}
+    if not dry_run:
+        cur.execute("SELECT id, name FROM medications_master")
+        for row in cur.fetchall():
+            med_name_cache[row[1].lower()] = str(row[0])
+
+    # Create prescriptions with items
+    rx_count = 0
+    item_count = 0
+    for mid, (patient_uuid, rx_date) in mid_map.items():
+        items = mid_items.get(mid, [])
+        if not items:
+            continue
+
+        rx_id = str(uuid.uuid4())
+        if not dry_run:
+            cur.execute(
+                """INSERT INTO prescriptions
+                   (id, patient_id, prescribed_by, status, prescribed_at, notes, created_at, updated_at)
+                   VALUES (%s, %s, %s, 'finalized', COALESCE(%s, now()), NULL, now(), now())""",
+                (rx_id, patient_uuid, admin_uid, rx_date),
+            )
+
+        for sort_idx, (drug_name, dosage) in enumerate(items):
+            # Find or create medication
+            med_key = drug_name.lower()
+            med_uuid = med_name_cache.get(med_key)
+            if not med_uuid and not dry_run:
+                med_uuid = str(uuid.uuid4())
+                cur.execute(
+                    "INSERT INTO medications_master (id, name, created_at) VALUES (%s, %s, now())",
+                    (med_uuid, drug_name),
+                )
+                med_name_cache[med_key] = med_uuid
+
+            if not dry_run and med_uuid:
+                item_id = str(uuid.uuid4())
+                cur.execute(
+                    """INSERT INTO prescription_items
+                       (id, prescription_id, medication_id, dosage, frequency, duration, instructions_ar, sort_order)
+                       VALUES (%s, %s, %s, %s, %s, NULL, %s, %s)""",
+                    (item_id, rx_id, med_uuid, drug_name[:100], dosage[:100], dosage, sort_idx),
+                )
+            item_count += 1
+
+        rx_count += 1
+
+    print(f"done ({rx_count} prescriptions, {item_count} items).")
+    return rx_count
+
+
 # ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
@@ -870,31 +967,34 @@ def main():
         totals: dict[str, int] = {}
 
         # Import in dependency order
-        print("\n[1/9] Patients (PersHt)")
+        print("\n[1/10] Patients (PersHt)")
         totals["patients"] = import_patients(access_db, cur, legacy_to_uuid, admin_uid, args.dry_run)
 
-        print("[2/9] Present History (PresntHt)")
+        print("[2/10] Present History (PresntHt)")
         totals["present_history"] = import_present_history(access_db, cur, legacy_to_uuid, admin_uid, args.dry_run)
 
-        print("[3/9] Past/Family History (PastHt)")
+        print("[3/10] Past/Family History (PastHt)")
         totals["past_family_history"] = import_past_family_history(access_db, cur, legacy_to_uuid, admin_uid, args.dry_run)
 
-        print("[4/9] Examinations (Exam)")
+        print("[4/10] Examinations (Exam)")
         totals["examinations"] = import_examinations(access_db, cur, legacy_to_uuid, exam_id_map, admin_uid, args.dry_run)
 
-        print("[5/9] Investigations (ECG)")
+        print("[5/10] Investigations (ECG)")
         totals["investigations"] = import_investigations(access_db, cur, legacy_to_uuid, ecg_eid_map, admin_uid, args.dry_run)
 
-        print("[6/9] Lab Results (Invest)")
+        print("[6/10] Lab Results (Invest)")
         totals["lab_results"] = import_lab_results(access_db, cur, ecg_eid_map, args.dry_run)
 
-        print("[7/9] Follow-ups (FollowUp)")
+        print("[7/10] Follow-ups (FollowUp)")
         totals["follow_ups"] = import_follow_ups(access_db, cur, legacy_to_uuid, admin_uid, args.dry_run)
 
-        print("[8/9] Medications (dawa)")
+        print("[8/10] Medications (dawa)")
         totals["medications"] = import_medications(access_db, cur, args.dry_run)
 
-        print("[9/9] Reference Data (Tahl, Write)")
+        print("[9/10] Patient Prescriptions (MasMidic + Medication)")
+        totals["prescriptions"] = import_patient_medications(access_db, cur, legacy_to_uuid, admin_uid, args.dry_run)
+
+        print("[10/10] Reference Data (Tahl, Write)")
         totals["investigation_types"] = import_investigation_types(access_db, cur, args.dry_run)
         totals["dosage_instructions"] = import_dosage_instructions(access_db, cur, args.dry_run)
 

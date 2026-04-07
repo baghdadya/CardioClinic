@@ -125,14 +125,21 @@ export default function UsersPage() {
     setEditErrors({});
     setEditSubmitting(true);
     try {
-      await api.patch(`/users/${editUser.id}`, editForm);
+      const payload: Record<string, unknown> = {};
+      if (editForm.full_name !== editUser.full_name) payload.full_name = editForm.full_name;
+      if (editForm.role !== editUser.role) payload.role = editForm.role;
+      if (editForm.is_active !== editUser.is_active) payload.is_active = editForm.is_active;
+      if (Object.keys(payload).length === 0) {
+        setEditUser(null);
+        return;
+      }
+      await api.patch(`/users/${editUser.id}`, payload);
       toast({ variant: "success", title: "User updated successfully" });
       setEditUser(null);
       fetchUsers();
     } catch (err: unknown) {
-      const msg =
-        (err as { response?: { data?: { detail?: string } } })?.response?.data
-          ?.detail ?? "Failed to update user";
+      const errObj = err as { response?: { data?: { detail?: string } } };
+      const msg = errObj?.response?.data?.detail ?? "Failed to update user";
       toast({ variant: "error", title: msg });
     } finally {
       setEditSubmitting(false);

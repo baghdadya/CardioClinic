@@ -1,0 +1,280 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #F0F2F8;
+  --color-foreground: #1e293b;
+  --color-card: #ffffff;
+  --color-card-foreground: #1e293b;
+  --color-popover: #ffffff;
+  --color-popover-foreground: #1e293b;
+  --color-primary: #4F46E5;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #F1F5F9;
+  --color-secondary-foreground: #334155;
+  --color-muted: #F1F5F9;
+  --color-muted-foreground: #64748b;
+  --color-accent: #EEF2FF;
+  --color-accent-foreground: #4F46E5;
+  --color-destructive: #E11D48;
+  --color-destructive-foreground: #ffffff;
+  --color-success: #059669;
+  --color-success-foreground: #ffffff;
+  --color-warning: #D97706;
+  --color-warning-foreground: #ffffff;
+  --color-border: #E2E8F0;
+  --color-input: #E2E8F0;
+  --color-ring: #6366F1;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: "Source Sans 3", "Noto Sans Arabic", system-ui, sans-serif;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight text-slate-800;
+    line-height: 1.2;
+  }
+
+  p {
+    line-height: 1.6;
+  }
+
+  /* Tabular numbers for stats and data */
+  .tabular-nums,
+  table td,
+  [data-stat] {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* ---------- Glassmorphism ---------- */
+.glass {
+  backdrop-filter: blur(20px) saturate(180%);
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.04),
+    0 8px 32px rgba(0, 0, 0, 0.06);
+}
+
+/* ---------- Card hover lift ---------- */
+.card-hover {
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.05),
+    0 20px 40px -8px rgba(79, 70, 229, 0.08);
+}
+
+/* ---------- Gradient text ---------- */
+.text-gradient {
+  background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 50%, #6366F1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ---------- Focus ring ---------- */
+:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ---------- Scrollbar styling (webkit) ---------- */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* Firefox thin scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.1) transparent;
+}
+
+/* ---------- Premium Gradient Backgrounds ---------- */
+.bg-gradient-primary {
+  background: linear-gradient(135deg, #4F46E5 0%, #6366F1 100%);
+}
+
+.bg-gradient-sidebar {
+  background: linear-gradient(180deg, #1e1b4b 0%, #312e81 50%, #3730a3 100%);
+}
+
+.bg-gradient-hero {
+  background: linear-gradient(135deg, #312e81 0%, #4338ca 30%, #4F46E5 60%, #6366F1 100%);
+}
+
+/* ---------- Subtle animated mesh for login ---------- */
+@keyframes meshFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(30px, -20px) scale(1.05); }
+  50% { transform: translate(-20px, 20px) scale(0.95); }
+  75% { transform: translate(20px, 10px) scale(1.02); }
+}
+
+.mesh-orb {
+  animation: meshFloat 20s ease-in-out infinite;
+  will-change: transform;
+}
+
+.mesh-orb-delay {
+  animation: meshFloat 25s ease-in-out infinite;
+  animation-delay: -8s;
+}
+
+.mesh-orb-delay-2 {
+  animation: meshFloat 22s ease-in-out infinite;
+  animation-delay: -15s;
+}
+
+/* ---------- Smooth page transitions ---------- */
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-slide-up {
+  animation: fadeSlideUp 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* ---------- Active nav glow ---------- */
+.nav-active-glow {
+  box-shadow: 0 0 20px rgba(99, 102, 241, 0.3), 0 0 4px rgba(99, 102, 241, 0.2);
+}
+
+/* ---------- Mobile-first responsive utilities ---------- */
+
+/* Safe area insets for notched devices */
+@supports (padding: env(safe-area-inset-bottom)) {
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+}
+
+@media (max-width: 640px) {
+  /* Full-width dialogs on mobile */
+  [role="dialog"],
+  [data-radix-popper-content-wrapper] > div {
+    max-width: calc(100vw - 2rem) !important;
+    width: calc(100vw - 2rem) !important;
+    margin: 1rem;
+  }
+
+  /* Stacked form layouts */
+  .form-grid,
+  .grid-cols-2,
+  .grid-cols-3 {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Horizontal scroll for tables */
+  .table-wrap,
+  table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Larger touch targets */
+  button,
+  a,
+  [role="button"],
+  input[type="checkbox"],
+  input[type="radio"],
+  select {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Readable font sizes */
+  html {
+    font-size: 16px; /* Prevents iOS zoom on input focus */
+  }
+
+  input,
+  select,
+  textarea {
+    font-size: 16px; /* Prevents iOS auto-zoom */
+  }
+
+  /* Reduce padding on mobile */
+  .px-6 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  /* Full-width cards on mobile */
+  .card-hover {
+    border-radius: 0.75rem;
+  }
+}
+
+/* Tablet breakpoint tweaks */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .grid-cols-3 {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* ---------- Touch-friendly scrolling ---------- */
+.overflow-y-auto,
+.overflow-x-auto {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ---------- PWA standalone mode tweaks ---------- */
+@media (display-mode: standalone) {
+  /* Remove any browser-specific UI hints */
+  body {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    user-select: none;
+  }
+
+  /* Allow text selection in content areas */
+  main,
+  [contenteditable],
+  input,
+  textarea,
+  .selectable {
+    user-select: auto;
+  }
+}

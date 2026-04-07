@@ -1,0 +1,1442 @@
+[
+  {
+    "name": "Concor",
+    "name_ar": "كونكور",
+    "generic_name": "Bisoprolol",
+    "category": "Beta-Blockers",
+    "manufacturer": "Merck Egypt",
+    "default_dosage": "5 mg once daily"
+  },
+  {
+    "name": "Concor Plus",
+    "name_ar": "كونكور بلس",
+    "generic_name": "Bisoprolol + Hydrochlorothiazide",
+    "category": "Beta-Blockers (Combination)",
+    "manufacturer": "Merck Egypt",
+    "default_dosage": "5/12.5 mg once daily"
+  },
+  {
+    "name": "Carvid",
+    "name_ar": "كارفيد",
+    "generic_name": "Carvedilol",
+    "category": "Beta-Blockers",
+    "manufacturer": "Multi-Apex Pharma",
+    "default_dosage": "6.25 mg twice daily"
+  },
+  {
+    "name": "Dilatrend",
+    "name_ar": "ديلاتريند",
+    "generic_name": "Carvedilol",
+    "category": "Beta-Blockers",
+    "manufacturer": "Roche Egypt",
+    "default_dosage": "6.25 mg twice daily"
+  },
+  {
+    "name": "Bisocard",
+    "name_ar": "بيزوكارد",
+    "generic_name": "Bisoprolol",
+    "category": "Beta-Blockers",
+    "manufacturer": "Pharco Pharmaceuticals",
+    "default_dosage": "5 mg once daily"
+  },
+  {
+    "name": "Nebilet",
+    "name_ar": "نيبيلت",
+    "generic_name": "Nebivolol",
+    "category": "Beta-Blockers",
+    "manufacturer": "Menarini",
+    "default_dosage": "5 mg once daily"
+  },
+  {
+    "name": "Tenormin",
+    "name_ar": "تينورمين",
+    "generic_name": "Atenolol",
+    "category": "Beta-Blockers",
+    "manufacturer": "AstraZeneca Egypt",
+    "default_dosage": "50 mg once daily"
+  },
+  {
+    "name": "Inderal",
+    "name_ar": "إنديرال",
+    "generic_name": "Propranolol",
+    "category": "Beta-Blockers",
+    "manufacturer": "AstraZeneca Egypt",
+    "default_dosage": "40 mg twice daily"
+  },
+  {
+    "name": "Betaloc ZOK",
+    "name_ar": "بيتالوك زوك",
+    "generic_name": "Metoprolol Succinate",
+    "category": "Beta-Blockers",
+    "manufacturer": "AstraZeneca Egypt",
+    "default_dosage": "50 mg once daily"
+  },
+  {
+    "name": "Seloken",
+    "name_ar": "سيلوكين",
+    "generic_name": "Metoprolol Tartrate",
+    "category": "Beta-Blockers",
+    "manufacturer": "AstraZeneca Egypt",
+    "default_dosage": "50 mg twice daily"
+  },
+  {
+    "name": "Tritace",
+    "name_ar": "تريتاس",
+    "generic_name": "Ramipril",
+    "category": "ACE Inhibitors",
+    "manufacturer": "Sanofi Egypt",
+    "default_dosage": "5 mg once daily"
+  },
+  {
+    "name": "Coversyl",
+    "name_ar": "كوفرسيل",
+    "generic_name": "Perindopril",
+    "category": "ACE Inhibitors",
+    "manufacturer": "Servier Egypt",
+    "default_dosage": "5 mg once daily"
+  },
+  {
+    "name": "Coversyl Plus",
+    "name_ar": "كوفرسيل بلس",
+    "generic_name": "Perindopril + Indapamide",
+    "category": "ACE Inhibitors (Combination)",
+    "manufacturer": "Servier Egypt",
+    "default_dosage": "5/1.25 mg once daily"
+  },
+  {
+    "name": "Zestril",
+    "name_ar": "زيستريل",
+    "generic_name": "Lisinopril",
+    "category": "ACE Inhibitors",
+    "manufacturer": "AstraZeneca Egypt",
+    "default_dosage": "10 mg once daily"
+  },
+  {
+    "name": "Capoten",
+    "name_ar": "كابوتين",
+    "generic_name": "Captopril",
+    "category": "ACE Inhibitors",
+    "manufacturer": "BMS Egypt",
+    "default_dosage": "25 mg twice daily"
+  },
+  {
+    "name": "Renitec",
+    "name_ar": "رينيتك",
+    "generic_name": "Enalapril",
+    "category": "ACE Inhibitors",
+    "manufacturer": "MSD Egypt",
+    "default_dosage": "10 mg once daily"
+  },
+  {
+    "name": "Ezapril",
+    "name_ar": "إيزابريل",
+    "generic_name": "Enalapril",
+    "category": "ACE Inhibitors",
+    "manufacturer": "EIPICO",
+    "default_dosage": "10 mg once daily"
+  },
+  {
+    "name": "Fosinopril",
+    "name_ar": "فوسينوبريل",
+    "generic_name": "Fosinopril",
+    "category": "ACE Inhibitors",
+    "manufacturer": "BMS Egypt",
+    "default_dosage": "20 mg once daily"
+  },
+  {
+    "name": "Diovan",
+    "name_ar": "ديوفان",
+    "generic_name": "Valsartan",
+    "category": "ARBs",
+    "manufacturer": "Novartis Egypt",
+    "default_dosage": "80 mg once daily"
+  },
+  {
+    "name": "Co-Diovan",
+    "name_ar": "كو-ديوفان",
+    "generic_name": "Valsartan + Hydrochlorothiazide",
+    "category": "ARBs (Combination)",
+    "manufacturer": "Novartis Egypt",
+    "default_dosage": "80/12.5 mg once daily"
+  },
+  {
+    "name": "Atacand",
+    "name_ar": "أتاكاند",
+    "generic_name": "Candesartan",
+    "category": "ARBs",
+    "manufacturer": "AstraZeneca Egypt",
+    "default_dosage": "8 mg once daily"
+  },
+  {
+    "name": "Atacand Plus",
+    "name_ar": "أتاكاند بلس",
+    "generic_name": "Candesartan + Hydrochlorothiazide",
+    "category": "ARBs (Combination)",
+    "manufacturer": "AstraZeneca Egypt",
+    "default_dosage": "16/12.5 mg once daily"
+  },
+  {
+    "name": "Coaprovel",
+    "name_ar": "كوابروفيل",
+    "generic_name": "Irbesartan + Hydrochlorothiazide",
+    "category": "ARBs (Combination)",
+    "manufacturer": "Sanofi Egypt",
+    "default_dosage": "150/12.5 mg once daily"
+  },
+  {
+    "name": "Aprovel",
+    "name_ar": "أبروفيل",
+    "generic_name": "Irbesartan",
+    "category": "ARBs",
+    "manufacturer": "Sanofi Egypt",
+    "default_dosage": "150 mg once daily"
+  },
+  {
+    "name": "Cozaar",
+    "name_ar": "كوزار",
+    "generic_name": "Losartan",
+    "category": "ARBs",
+    "manufacturer": "MSD Egypt",
+    "default_dosage": "50 mg once daily"
+  },
+  {
+    "name": "Hyzaar",
+    "name_ar": "هيزار",
+    "generic_name": "Losartan + Hydrochlorothiazide",
+    "category": "ARBs (Combination)",
+    "manufacturer": "MSD Egypt",
+    "default_dosage": "50/12.5 mg once daily"
+  },
+  {
+    "name": "Micardis",
+    "name_ar": "ميكارديس",
+    "generic_name": "Telmisartan",
+    "category": "ARBs",
+    "manufacturer": "Boehringer Ingelheim Egypt",
+    "default_dosage": "40 mg once daily"
+  },
+  {
+    "name": "Micardis Plus",
+    "name_ar": "ميكارديس بلس",
+    "generic_name": "Telmisartan + Hydrochlorothiazide",
+    "category": "ARBs (Combination)",
+    "manufacturer": "Boehringer Ingelheim Egypt",
+    "default_dosage": "80/12.5 mg once daily"
+  },
+  {
+    "name": "Exforge",
+    "name_ar": "إكسفورج",
+    "generic_name": "Amlodipine + Valsartan",
+    "category": "ARBs (Combination)",
+    "manufacturer": "Novartis Egypt",
+    "default_dosage": "5/80 mg once daily"
+  },
+  {
+    "name": "Exforge HCT",
+    "name_ar": "إكسفورج إتش سي تي",
+    "generic_name": "Amlodipine + Valsartan + Hydrochlorothiazide",
+    "category": "ARBs (Combination)",
+    "manufacturer": "Novartis Egypt",
+    "default_dosage": "5/160/12.5 mg once daily"
+  },
+  {
+    "name": "Tareg",
+    "name_ar": "تاريج",
+    "generic_name": "Valsartan",
+    "category": "ARBs",
+    "manufacturer": "Novartis Egypt",
+    "default_dosage": "80 mg once daily"
+  },
+  {
+    "name": "Olmetec",
+    "name_ar": "أولميتك",
+    "generic_name": "Olmesartan",
+    "category": "ARBs",
+    "manufacturer": "Daiichi Sankyo Egypt",
+    "default_dosage": "20 mg once daily"
+  },
+  {
+    "name": "Norvasc",
+    "name_ar": "نورفاسك",
+    "generic_name": "Amlodipine",
+    "category": "Calcium Channel Blockers",
+    "manufacturer": "Pfizer Egypt",
+    "default_dosage": "5 mg once daily"
+  },
+  {
+    "name": "Amlor",
+    "name_ar": "أملور",
+    "generic_name": "Amlodipine",
+    "category": "Calcium Channel Blockers",
+    "manufacturer": "Pfizer Egypt",
+    "default_dosage": "5 mg once daily"
+  },
+  {
+    "name": "Adalat",
+    "name_ar": "أدالات",
+    "generic_name": "Nifedipine",
+    "category": "Calcium Channel Blockers",
+    "manufacturer": "Bayer Egypt",
+    "default_dosage": "30 mg once daily (retard)"
+  },
+  {
+    "name": "Adalat Oros",
+    "name_ar": "أدالات أوروس",
+    "generic_name": "Nifedipine (Extended Release)",
+    "category": "Calcium Channel Blockers",
+    "manufacturer": "Bayer Egypt",
+    "default_dosage": "30 mg once daily"
+  },
+  {
+    "name": "Isoptin",
+    "name_ar": "إيزوبتين",
+    "generic_name": "Verapamil",
+    "category": "Calcium Channel Blockers",
+    "manufacturer": "Abbott Egypt",
+    "default_dosage": "80 mg three times daily"
+  },
+  {
+    "name": "Isoptin SR",
+    "name_ar": "إيزوبتين إس آر",
+    "generic_name": "Verapamil (Sustained Release)",
+    "category": "Calcium Channel Blockers",
+    "manufacturer": "Abbott Egypt",
+    "default_dosage": "240 mg once daily"
+  },
+  {
+    "name": "Plendil",
+    "name_ar": "بلينديل",
+    "generic_name": "Felodipine",
+    "category": "Calcium Channel Blockers",
+    "manufacturer": "AstraZeneca Egypt",
+    "default_dosage": "5 mg once daily"
+  },
+  {
+    "name": "Diltiazem",
+    "name_ar": "ديلتيازيم",
+    "generic_name": "Diltiazem",
+    "category": "Calcium Channel Blockers",
+    "manufacturer": "EIPICO",
+    "default_dosage": "60 mg three times daily"
+  },
+  {
+    "name": "Lipitor",
+    "name_ar": "ليبيتور",
+    "generic_name": "Atorvastatin",
+    "category": "Statins",
+    "manufacturer": "Pfizer Egypt",
+    "default_dosage": "20 mg once daily at bedtime"
+  },
+  {
+    "name": "Ator",
+    "name_ar": "أتور",
+    "generic_name": "Atorvastatin",
+    "category": "Statins",
+    "manufacturer": "EPICO",
+    "default_dosage": "20 mg once daily at bedtime"
+  },
+  {
+    "name": "Crestor",
+    "name_ar": "كريستور",
+    "generic_name": "Rosuvastatin",
+    "category": "Statins",
+    "manufacturer": "AstraZeneca Egypt",
+    "default_dosage": "10 mg once daily"
+  },
+  {
+    "name": "Rosuvast",
+    "name_ar": "روزوفاست",
+    "generic_name": "Rosuvastatin",
+    "category": "Statins",
+    "manufacturer": "Marcyrl",
+    "default_dosage": "10 mg once daily"
+  },
+  {
+    "name": "Zocor",
+    "name_ar": "زوكور",
+    "generic_name": "Simvastatin",
+    "category": "Statins",
+    "manufacturer": "MSD Egypt",
+    "default_dosage": "20 mg once daily at bedtime"
+  },
+  {
+    "name": "Pravachol",
+    "name_ar": "برافاكول",
+    "generic_name": "Pravastatin",
+    "category": "Statins",
+    "manufacturer": "BMS Egypt",
+    "default_dosage": "40 mg once daily at bedtime"
+  },
+  {
+    "name": "Lescol XL",
+    "name_ar": "ليسكول إكس إل",
+    "generic_name": "Fluvastatin",
+    "category": "Statins",
+    "manufacturer": "Novartis Egypt",
+    "default_dosage": "80 mg once daily"
+  },
+  {
+    "name": "Ezetrol",
+    "name_ar": "إزيترول",
+    "generic_name": "Ezetimibe",
+    "category": "Cholesterol Absorption Inhibitor",
+    "manufacturer": "MSD Egypt",
+    "default_dosage": "10 mg once daily"
+  },
+  {
+    "name": "Inegy",
+    "name_ar": "إينيجي",
+    "generic_name": "Ezetimibe + Simvastatin",
+    "category": "Statins (Combination)",
+    "manufacturer": "MSD Egypt",
+    "default_dosage": "10/20 mg once daily"
+  },
+  {
+    "name": "Plavix",
+    "name_ar": "بلافيكس",
+    "generic_name": "Clopidogrel",
+    "category": "Antiplatelets",
+    "manufacturer": "Sanofi Egypt",
+    "default_dosage": "75 mg once daily"
+  },
+  {
+    "name": "Clopidex",
+    "name_ar": "كلوبيدكس",
+    "generic_name": "Clopidogrel",
+    "category": "Antiplatelets",
+    "manufacturer": "Pharco Pharmaceuticals",
+    "default_dosage": "75 mg once daily"
+  },
+  {
+    "name": "Brilinta",
+    "name_ar": "بريلينتا",
+    "generic_name": "Ticagrelor",
+    "category": "Antiplatelets",
+    "manufacturer": "AstraZeneca Egypt",
+    "default_dosage": "90 mg twice daily"
+  },
+  {
+    "name": "Aspocid",
+    "name_ar": "أسبوسيد",
+    "generic_name": "Acetylsalicylic Acid",
+    "category": "Antiplatelets",
+    "manufacturer": "CID Pharma",
+    "default_dosage": "75 mg once daily"
+  },
+  {
+    "name": "Ascard",
+    "name_ar": "أسكارد",
+    "generic_name": "Acetylsalicylic Acid",
+    "category": "Antiplatelets",
+    "manufacturer": "Global Napi",
+    "default_dosage": "100 mg once daily"
+  },
+  {
+    "name": "Aggrenox",
+    "name_ar": "أجرينوكس",
+    "generic_name": "Aspirin + Dipyridamole",
+    "category": "Antiplatelets (Combination)",
+    "manufacturer": "Boehringer Ingelheim Egypt",
+    "default_dosage": "25/200 mg twice daily"
+  },
+  {
+    "name": "Efient",
+    "name_ar": "إيفينت",
+    "generic_name": "Prasugrel",
+    "category": "Antiplatelets",
+    "manufacturer": "Lilly Egypt",
+    "default_dosage": "10 mg once daily"
+  },
+  {
+    "name": "Marevan",
+    "name_ar": "ماريفان",
+    "generic_name": "Warfarin",
+    "category": "Anticoagulants",
+    "manufacturer": "GlaxoSmithKline Egypt",
+    "default_dosage": "5 mg once daily (INR-guided)"
+  },
+  {
+    "name": "Xarelto",
+    "name_ar": "زاريلتو",
+    "generic_name": "Rivaroxaban",
+    "category": "Anticoagulants",
+    "manufacturer": "Bayer Egypt",
+    "default_dosage": "20 mg once daily with food"
+  },
+  {
+    "name": "Eliquis",
+    "name_ar": "إليكويس",
+    "generic_name": "Apixaban",
+    "category": "Anticoagulants",
+    "manufacturer": "BMS / Pfizer Egypt",
+    "default_dosage": "5 mg twice daily"
+  },
+  {
+    "name": "Pradaxa",
+    "name_ar": "براداكسا",
+    "generic_name": "Dabigatran",
+    "category": "Anticoagulants",
+    "manufacturer": "Boehringer Ingelheim Egypt",
+    "default_dosage": "150 mg twice daily"
+  },
+  {
+    "name": "Clexane",
+    "name_ar": "كليكسان",
+    "generic_name": "Enoxaparin",
+    "category": "Anticoagulants",
+    "manufacturer": "Sanofi Egypt",
+    "default_dosage": "40 mg SC once daily (prophylaxis)"
+  },
+  {
+    "name": "Innohep",
+    "name_ar": "إينوهيب",
+    "generic_name": "Tinzaparin",
+    "category": "Anticoagulants",
+    "manufacturer": "LEO Pharma Egypt",
+    "default_dosage": "175 IU/kg SC once daily"
+  },
+  {
+    "name": "Heparin",
+    "name_ar": "هيبارين",
+    "generic_name": "Unfractionated Heparin",
+    "category": "Anticoagulants",
+    "manufacturer": "Nile Pharma",
+    "default_dosage": "5000 IU SC every 12 hours (prophylaxis)"
+  },
+  {
+    "name": "Lasix",
+    "name_ar": "لازيكس",
+    "generic_name": "Furosemide",
+    "category": "Diuretics",
+    "manufacturer": "Sanofi Egypt",
+    "default_dosage": "40 mg once daily"
+  },
+  {
+    "name": "Frusemide Pharco",
+    "name_ar": "فروسيمايد فاركو",
+    "generic_name": "Furosemide",
+    "category": "Diuretics",
+    "manufacturer": "Pharco Pharmaceuticals",
+    "default_dosage": "40 mg once daily"
+  },
+  {
+    "name": "Aldactone",
+    "name_ar": "ألداكتون",
+    "generic_name": "Spironolactone",
+    "category": "Diuretics",
+    "manufacturer": "Pfizer Egypt",
+    "default_dosage": "25 mg once daily"
+  },
+  {
+    "name": "Moduretic",
+    "name_ar": "موديوريتك",
+    "generic_name": "Amiloride + Hydrochlorothiazide",
+    "category": "Diuretics (Combination)",
+    "manufacturer": "MSD Egypt",
+    "default_dosage": "5/50 mg once daily"
+  },
+  {
+    "name": "Esidrex",
+    "name_ar": "إسيدريكس",
+    "generic_name": "Hydrochlorothiazide",
+    "category": "Diuretics",
+    "manufacturer": "Novartis Egypt",
+    "default_dosage": "25 mg once daily"
+  },
+  {
+    "name": "Burinex",
+    "name_ar": "بيورينكس",
+    "generic_name": "Bumetanide",
+    "category": "Diuretics",
+    "manufacturer": "LEO Pharma Egypt",
+    "default_dosage": "1 mg once daily"
+  },
+  {
+    "name": "Torem",
+    "name_ar": "توريم",
+    "generic_name": "Torasemide",
+    "category": "Diuretics",
+    "manufacturer": "Roche Egypt",
+    "default_dosage": "10 mg once daily"
+  },
+  {
+    "name": "Natrilix",
+    "name_ar": "ناتريليكس",
+    "generic_name": "Indapamide",
+    "category": "Diuretics",
+    "manufacturer": "Servier Egypt",
+    "default_dosage": "1.5 mg once daily (SR)"
+  },
+  {
+    "name": "Natrilix SR",
+    "name_ar": "ناتريليكس إس آر",
+    "generic_name": "Indapamide (Sustained Release)",
+    "category": "Diuretics",
+    "manufacturer": "Servier Egypt",
+    "default_dosage": "1.5 mg once daily"
+  },
+  {
+    "name": "Imdur",
+    "name_ar": "إيمدور",
+    "generic_name": "Isosorbide Mononitrate",
+    "category": "Nitrates",
+    "manufacturer": "AstraZeneca Egypt",
+    "default_dosage": "60 mg once daily"
+  },
+  {
+    "name": "Effox",
+    "name_ar": "إيفوكس",
+    "generic_name": "Isosorbide Mononitrate",
+    "category": "Nitrates",
+    "manufacturer": "Minapharm",
+    "default_dosage": "20 mg twice daily"
+  },
+  {
+    "name": "Effox Long",
+    "name_ar": "إيفوكس لونج",
+    "generic_name": "Isosorbide Mononitrate (Extended Release)",
+    "category": "Nitrates",
+    "manufacturer": "Minapharm",
+    "default_dosage": "50 mg once daily"
+  },
+  {
+    "name": "Nitromac Retard",
+    "name_ar": "نيتروماك ريتارد",
+    "generic_name": "Isosorbide Dinitrate",
+    "category": "Nitrates",
+    "manufacturer": "Marcyrl",
+    "default_dosage": "20 mg twice daily"
+  },
+  {
+    "name": "Nitroderm TTS",
+    "name_ar": "نيتروديرم تي تي إس",
+    "generic_name": "Nitroglycerin (Transdermal Patch)",
+    "category": "Nitrates",
+    "manufacturer": "Novartis Egypt",
+    "default_dosage": "5 mg/24h patch, apply daily for 12-14h"
+  },
+  {
+    "name": "Nitrolingual Spray",
+    "name_ar": "نيتروليجوال اسبراى",
+    "generic_name": "Nitroglycerin (Sublingual Spray)",
+    "category": "Nitrates",
+    "manufacturer": "Pohl-Boskamp",
+    "default_dosage": "1-2 sprays sublingual PRN"
+  },
+  {
+    "name": "Isordil",
+    "name_ar": "إيزورديل",
+    "generic_name": "Isosorbide Dinitrate",
+    "category": "Nitrates",
+    "manufacturer": "Valeant Egypt",
+    "default_dosage": "10 mg three times daily"
+  },
+  {
+    "name": "Cordarone",
+    "name_ar": "كوردارون",
+    "generic_name": "Amiodarone",
+    "category": "Antiarrhythmics",
+    "manufacturer": "Sanofi Egypt",
+    "default_dosage": "200 mg once daily (maintenance)"
+  },
+  {
+    "name": "Lanoxin",
+    "name_ar": "لانوكسين",
+    "generic_name": "Digoxin",
+    "category": "Antiarrhythmics",
+    "manufacturer": "GlaxoSmithKline Egypt",
+    "default_dosage": "0.25 mg once daily"
+  },
+  {
+    "name": "Tambocor",
+    "name_ar": "تامبوكور",
+    "generic_name": "Flecainide",
+    "category": "Antiarrhythmics",
+    "manufacturer": "3M Pharma",
+    "default_dosage": "100 mg twice daily"
+  },
+  {
+    "name": "Rythmodan",
+    "name_ar": "ريثمودان",
+    "generic_name": "Disopyramide",
+    "category": "Antiarrhythmics",
+    "manufacturer": "Sanofi Egypt",
+    "default_dosage": "100 mg three times daily"
+  },
+  {
+    "name": "Mexitil",
+    "name_ar": "ميكسيتيل",
+    "generic_name": "Mexiletine",
+    "category": "Antiarrhythmics",
+    "manufacturer": "Boehringer Ingelheim Egypt",
+    "default_dosage": "200 mg three times daily"
+  },
+  {
+    "name": "Adenocor",
+    "name_ar": "أدينوكور",
+    "generic_name": "Adenosine",
+    "category": "Antiarrhythmics",
+    "manufacturer": "Sanofi Egypt",
+    "default_dosage": "6 mg rapid IV bolus"
+  },
+  {
+    "name": "Entresto",
+    "name_ar": "إنتريستو",
+    "generic_name": "Sacubitril + Valsartan",
+    "category": "Heart Failure",
+    "manufacturer": "Novartis Egypt",
+    "default_dosage": "49/51 mg twice daily"
+  },
+  {
+    "name": "Procoralan",
+    "name_ar": "بروكورالان",
+    "generic_name": "Ivabradine",
+    "category": "Heart Failure",
+    "manufacturer": "Servier Egypt",
+    "default_dosage": "5 mg twice daily"
+  },
+  {
+    "name": "Inspra",
+    "name_ar": "إنسبرا",
+    "generic_name": "Eplerenone",
+    "category": "Heart Failure",
+    "manufacturer": "Pfizer Egypt",
+    "default_dosage": "25 mg once daily"
+  },
+  {
+    "name": "Verquvo",
+    "name_ar": "فيركوفو",
+    "generic_name": "Vericiguat",
+    "category": "Heart Failure",
+    "manufacturer": "Bayer Egypt",
+    "default_dosage": "2.5 mg once daily (titrate up)"
+  },
+  {
+    "name": "BiDil",
+    "name_ar": "بايديل",
+    "generic_name": "Hydralazine + Isosorbide Dinitrate",
+    "category": "Heart Failure",
+    "manufacturer": "Arbor Pharma",
+    "default_dosage": "37.5/20 mg three times daily"
+  },
+  {
+    "name": "Jardiance",
+    "name_ar": "جارديانس",
+    "generic_name": "Empagliflozin",
+    "category": "SGLT2 Inhibitors",
+    "manufacturer": "Boehringer Ingelheim Egypt",
+    "default_dosage": "10 mg once daily"
+  },
+  {
+    "name": "Forxiga",
+    "name_ar": "فوركسيجا",
+    "generic_name": "Dapagliflozin",
+    "category": "SGLT2 Inhibitors",
+    "manufacturer": "AstraZeneca Egypt",
+    "default_dosage": "10 mg once daily"
+  },
+  {
+    "name": "Invokana",
+    "name_ar": "إنفوكانا",
+    "generic_name": "Canagliflozin",
+    "category": "SGLT2 Inhibitors",
+    "manufacturer": "Janssen Egypt",
+    "default_dosage": "100 mg once daily"
+  },
+  {
+    "name": "Jardiance Duo",
+    "name_ar": "جارديانس ديو",
+    "generic_name": "Empagliflozin + Metformin",
+    "category": "SGLT2 Inhibitors (Combination)",
+    "manufacturer": "Boehringer Ingelheim Egypt",
+    "default_dosage": "10/1000 mg twice daily"
+  },
+  {
+    "name": "Vastarel MR",
+    "name_ar": "فاستاريل إم آر",
+    "generic_name": "Trimetazidine",
+    "category": "Antianginals",
+    "manufacturer": "Servier Egypt",
+    "default_dosage": "35 mg twice daily"
+  },
+  {
+    "name": "Ranexa",
+    "name_ar": "رانيكسا",
+    "generic_name": "Ranolazine",
+    "category": "Antianginals",
+    "manufacturer": "Menarini",
+    "default_dosage": "500 mg twice daily"
+  },
+  {
+    "name": "Nicorandil",
+    "name_ar": "نيكورانديل",
+    "generic_name": "Nicorandil",
+    "category": "Antianginals",
+    "manufacturer": "Minapharm",
+    "default_dosage": "10 mg twice daily"
+  },
+  {
+    "name": "Trental",
+    "name_ar": "ترينتال",
+    "generic_name": "Pentoxifylline",
+    "category": "Peripheral Vasodilators",
+    "manufacturer": "Sanofi Egypt",
+    "default_dosage": "400 mg three times daily"
+  },
+  {
+    "name": "Pletaal",
+    "name_ar": "بليتال",
+    "generic_name": "Cilostazol",
+    "category": "Peripheral Vasodilators",
+    "manufacturer": "Otsuka Egypt",
+    "default_dosage": "100 mg twice daily"
+  },
+  {
+    "name": "Lopid",
+    "name_ar": "لوبيد",
+    "generic_name": "Gemfibrozil",
+    "category": "Fibrates",
+    "manufacturer": "Pfizer Egypt",
+    "default_dosage": "600 mg twice daily"
+  },
+  {
+    "name": "Lipanthyl",
+    "name_ar": "ليبانثيل",
+    "generic_name": "Fenofibrate",
+    "category": "Fibrates",
+    "manufacturer": "Abbott Egypt",
+    "default_dosage": "145 mg once daily"
+  },
+  {
+    "name": "Bezalip",
+    "name_ar": "بيزاليب",
+    "generic_name": "Bezafibrate",
+    "category": "Fibrates",
+    "manufacturer": "Actavis Egypt",
+    "default_dosage": "400 mg once daily (retard)"
+  },
+  {
+    "name": "Repatha",
+    "name_ar": "ريباثا",
+    "generic_name": "Evolocumab",
+    "category": "PCSK9 Inhibitors",
+    "manufacturer": "Amgen Egypt",
+    "default_dosage": "140 mg SC every 2 weeks"
+  },
+  {
+    "name": "Praluent",
+    "name_ar": "برالوينت",
+    "generic_name": "Alirocumab",
+    "category": "PCSK9 Inhibitors",
+    "manufacturer": "Sanofi Egypt",
+    "default_dosage": "75 mg SC every 2 weeks"
+  },
+  {
+    "name": "Dopamine",
+    "name_ar": "دوبامين",
+    "generic_name": "Dopamine",
+    "category": "Inotropes",
+    "manufacturer": "Pharco Pharmaceuticals",
+    "default_dosage": "2-20 mcg/kg/min IV infusion"
+  },
+  {
+    "name": "Dobutamine",
+    "name_ar": "دوبيوتامين",
+    "generic_name": "Dobutamine",
+    "category": "Inotropes",
+    "manufacturer": "Pharco Pharmaceuticals",
+    "default_dosage": "2.5-10 mcg/kg/min IV infusion"
+  },
+  {
+    "name": "Milrinone",
+    "name_ar": "ميلرينون",
+    "generic_name": "Milrinone",
+    "category": "Inotropes",
+    "manufacturer": "Sanofi Egypt",
+    "default_dosage": "0.375-0.75 mcg/kg/min IV infusion"
+  },
+  {
+    "name": "Adrenaline",
+    "name_ar": "أدرينالين",
+    "generic_name": "Epinephrine",
+    "category": "Emergency Cardiac",
+    "manufacturer": "Nile Pharma",
+    "default_dosage": "1 mg IV every 3-5 min (cardiac arrest)"
+  },
+  {
+    "name": "Atropine",
+    "name_ar": "أتروبين",
+    "generic_name": "Atropine Sulfate",
+    "category": "Emergency Cardiac",
+    "manufacturer": "Nile Pharma",
+    "default_dosage": "0.5 mg IV every 3-5 min (bradycardia)"
+  },
+  {
+    "name": "Metalyse",
+    "name_ar": "ميتاليز",
+    "generic_name": "Tenecteplase",
+    "category": "Thrombolytics",
+    "manufacturer": "Boehringer Ingelheim Egypt",
+    "default_dosage": "Weight-based single IV bolus"
+  },
+  {
+    "name": "Actilyse",
+    "name_ar": "أكتيليز",
+    "generic_name": "Alteplase",
+    "category": "Thrombolytics",
+    "manufacturer": "Boehringer Ingelheim Egypt",
+    "default_dosage": "100 mg IV over 90 min (STEMI protocol)"
+  },
+  {
+    "name": "Streptokinase",
+    "name_ar": "ستربتوكيناز",
+    "generic_name": "Streptokinase",
+    "category": "Thrombolytics",
+    "manufacturer": "Nile Pharma",
+    "default_dosage": "1.5 million IU IV over 60 min"
+  },
+  {
+    "name": "Catapres",
+    "name_ar": "كاتابريس",
+    "generic_name": "Clonidine",
+    "category": "Centrally Acting Antihypertensives",
+    "manufacturer": "Boehringer Ingelheim Egypt",
+    "default_dosage": "0.1 mg twice daily"
+  },
+  {
+    "name": "Aldomet",
+    "name_ar": "ألدوميت",
+    "generic_name": "Methyldopa",
+    "category": "Centrally Acting Antihypertensives",
+    "manufacturer": "MSD Egypt",
+    "default_dosage": "250 mg twice daily"
+  },
+  {
+    "name": "Physiotens",
+    "name_ar": "فيزيوتنس",
+    "generic_name": "Moxonidine",
+    "category": "Centrally Acting Antihypertensives",
+    "manufacturer": "Abbott Egypt",
+    "default_dosage": "0.2 mg once daily"
+  },
+  {
+    "name": "Minipress",
+    "name_ar": "مينيبريس",
+    "generic_name": "Prazosin",
+    "category": "Alpha-Blockers",
+    "manufacturer": "Pfizer Egypt",
+    "default_dosage": "1 mg twice daily"
+  },
+  {
+    "name": "Cardura",
+    "name_ar": "كاردورا",
+    "generic_name": "Doxazosin",
+    "category": "Alpha-Blockers",
+    "manufacturer": "Pfizer Egypt",
+    "default_dosage": "4 mg once daily"
+  },
+  {
+    "name": "Hyperstat",
+    "name_ar": "هايبرستات",
+    "generic_name": "Diazoxide",
+    "category": "Direct Vasodilators",
+    "manufacturer": "Schering-Plough Egypt",
+    "default_dosage": "1-3 mg/kg IV (hypertensive emergency)"
+  },
+  {
+    "name": "Hydralazine",
+    "name_ar": "هيدرالازين",
+    "generic_name": "Hydralazine",
+    "category": "Direct Vasodilators",
+    "manufacturer": "Novartis Egypt",
+    "default_dosage": "25 mg three times daily"
+  },
+  {
+    "name": "Omacor",
+    "name_ar": "أوماكور",
+    "generic_name": "Omega-3 Acid Ethyl Esters",
+    "category": "Lipid-Lowering Agents",
+    "manufacturer": "Abbott Egypt",
+    "default_dosage": "1 g once daily"
+  },
+  {
+    "name": "Niaspan",
+    "name_ar": "نياسبان",
+    "generic_name": "Niacin (Extended Release)",
+    "category": "Lipid-Lowering Agents",
+    "manufacturer": "AbbVie Egypt",
+    "default_dosage": "500 mg once daily at bedtime (titrate)"
+  },
+  {
+    "name": "Allopurinol",
+    "name_ar": "ألوبيورينول",
+    "generic_name": "Allopurinol",
+    "category": "Gout (Cardiac Comorbidity)",
+    "manufacturer": "EIPICO",
+    "default_dosage": "100 mg once daily"
+  },
+  {
+    "name": "Colchicine",
+    "name_ar": "كولشيسين",
+    "generic_name": "Colchicine",
+    "category": "Anti-Inflammatory (Pericarditis)",
+    "manufacturer": "Pharco Pharmaceuticals",
+    "default_dosage": "0.5 mg twice daily"
+  },
+  {
+    "name": "Brufen",
+    "name_ar": "بروفين",
+    "generic_name": "Ibuprofen",
+    "category": "NSAIDs (Pericarditis)",
+    "manufacturer": "Abbott Egypt",
+    "default_dosage": "600 mg three times daily"
+  },
+  {
+    "name": "Nexium",
+    "name_ar": "نيكسيوم",
+    "generic_name": "Esomeprazole",
+    "category": "Gastroprotection (with Antiplatelets)",
+    "manufacturer": "AstraZeneca Egypt",
+    "default_dosage": "20 mg once daily"
+  },
+  {
+    "name": "Controloc",
+    "name_ar": "كونترولوك",
+    "generic_name": "Pantoprazole",
+    "category": "Gastroprotection (with Antiplatelets)",
+    "manufacturer": "Nycomed Egypt",
+    "default_dosage": "40 mg once daily"
+  },
+  {
+    "name": "Pariet",
+    "name_ar": "باريت",
+    "generic_name": "Rabeprazole",
+    "category": "Gastroprotection (with Antiplatelets)",
+    "manufacturer": "Janssen Egypt",
+    "default_dosage": "20 mg once daily"
+  },
+  {
+    "name": "Nitropress",
+    "name_ar": "نيتروبريس",
+    "generic_name": "Sodium Nitroprusside",
+    "category": "Hypertensive Emergency",
+    "manufacturer": "Hospira Egypt",
+    "default_dosage": "0.3-10 mcg/kg/min IV infusion"
+  },
+  {
+    "name": "Ebrantil",
+    "name_ar": "إيبرانتيل",
+    "generic_name": "Urapidil",
+    "category": "Hypertensive Emergency",
+    "manufacturer": "Takeda Egypt",
+    "default_dosage": "25 mg IV bolus"
+  },
+  {
+    "name": "Esmolol",
+    "name_ar": "إسمولول",
+    "generic_name": "Esmolol",
+    "category": "Beta-Blockers (IV)",
+    "manufacturer": "Baxter Egypt",
+    "default_dosage": "500 mcg/kg loading then 50-200 mcg/kg/min"
+  },
+  {
+    "name": "Labetalol",
+    "name_ar": "لابيتالول",
+    "generic_name": "Labetalol",
+    "category": "Beta-Blockers (IV)",
+    "manufacturer": "GlaxoSmithKline Egypt",
+    "default_dosage": "20 mg IV bolus, then 1-2 mg/min infusion"
+  },
+  {
+    "name": "Diltiazem IV",
+    "name_ar": "ديلتيازيم حقن",
+    "generic_name": "Diltiazem (IV)",
+    "category": "Calcium Channel Blockers (IV)",
+    "manufacturer": "Hospira Egypt",
+    "default_dosage": "0.25 mg/kg IV bolus over 2 min"
+  },
+  {
+    "name": "Sotalol",
+    "name_ar": "سوتالول",
+    "generic_name": "Sotalol",
+    "category": "Antiarrhythmics",
+    "manufacturer": "BMS Egypt",
+    "default_dosage": "80 mg twice daily"
+  },
+  {
+    "name": "Multaq",
+    "name_ar": "مالتاك",
+    "generic_name": "Dronedarone",
+    "category": "Antiarrhythmics",
+    "manufacturer": "Sanofi Egypt",
+    "default_dosage": "400 mg twice daily"
+  },
+  {
+    "name": "Lidocaine",
+    "name_ar": "ليدوكايين",
+    "generic_name": "Lidocaine",
+    "category": "Antiarrhythmics (IV)",
+    "manufacturer": "AstraZeneca Egypt",
+    "default_dosage": "1-1.5 mg/kg IV bolus"
+  },
+  {
+    "name": "Magnesium Sulfate",
+    "name_ar": "كبريتات الماغنسيوم",
+    "generic_name": "Magnesium Sulfate",
+    "category": "Electrolyte / Antiarrhythmic",
+    "manufacturer": "Nile Pharma",
+    "default_dosage": "1-2 g IV over 5-60 min"
+  },
+  {
+    "name": "Potassium Chloride",
+    "name_ar": "كلوريد البوتاسيوم",
+    "generic_name": "Potassium Chloride",
+    "category": "Electrolyte Supplement",
+    "manufacturer": "Nile Pharma",
+    "default_dosage": "20-40 mEq/day PO (in divided doses)"
+  },
+  {
+    "name": "Slow-K",
+    "name_ar": "سلو-كيه",
+    "generic_name": "Potassium Chloride (Sustained Release)",
+    "category": "Electrolyte Supplement",
+    "manufacturer": "Novartis Egypt",
+    "default_dosage": "600 mg twice daily"
+  },
+  {
+    "name": "Tildiem",
+    "name_ar": "تيلديم",
+    "generic_name": "Diltiazem",
+    "category": "Calcium Channel Blockers",
+    "manufacturer": "Sanofi Egypt",
+    "default_dosage": "60 mg three times daily"
+  },
+  {
+    "name": "Caduet",
+    "name_ar": "كاديوت",
+    "generic_name": "Amlodipine + Atorvastatin",
+    "category": "Combination (CCB + Statin)",
+    "manufacturer": "Pfizer Egypt",
+    "default_dosage": "5/10 mg once daily"
+  },
+  {
+    "name": "Twynsta",
+    "name_ar": "توينستا",
+    "generic_name": "Telmisartan + Amlodipine",
+    "category": "Combination (ARB + CCB)",
+    "manufacturer": "Boehringer Ingelheim Egypt",
+    "default_dosage": "40/5 mg once daily"
+  },
+  {
+    "name": "Sevikar",
+    "name_ar": "سيفيكار",
+    "generic_name": "Olmesartan + Amlodipine",
+    "category": "Combination (ARB + CCB)",
+    "manufacturer": "Daiichi Sankyo Egypt",
+    "default_dosage": "20/5 mg once daily"
+  },
+  {
+    "name": "Sevikar HCT",
+    "name_ar": "سيفيكار إتش سي تي",
+    "generic_name": "Olmesartan + Amlodipine + Hydrochlorothiazide",
+    "category": "Triple Combination Antihypertensive",
+    "manufacturer": "Daiichi Sankyo Egypt",
+    "default_dosage": "20/5/12.5 mg once daily"
+  },
+  {
+    "name": "Rasilez",
+    "name_ar": "راسيليز",
+    "generic_name": "Aliskiren",
+    "category": "Direct Renin Inhibitors",
+    "manufacturer": "Novartis Egypt",
+    "default_dosage": "150 mg once daily"
+  },
+  {
+    "name": "Revatio",
+    "name_ar": "ريفاتيو",
+    "generic_name": "Sildenafil",
+    "category": "Pulmonary Hypertension",
+    "manufacturer": "Pfizer Egypt",
+    "default_dosage": "20 mg three times daily"
+  },
+  {
+    "name": "Tracleer",
+    "name_ar": "تراكلير",
+    "generic_name": "Bosentan",
+    "category": "Pulmonary Hypertension",
+    "manufacturer": "Actelion Egypt",
+    "default_dosage": "62.5 mg twice daily for 4 weeks, then 125 mg twice daily"
+  },
+  {
+    "name": "Uptravi",
+    "name_ar": "أبترافي",
+    "generic_name": "Selexipag",
+    "category": "Pulmonary Hypertension",
+    "manufacturer": "Actelion Egypt",
+    "default_dosage": "200 mcg twice daily (titrate up)"
+  },
+  {
+    "name": "Adempas",
+    "name_ar": "أديمباس",
+    "generic_name": "Riociguat",
+    "category": "Pulmonary Hypertension",
+    "manufacturer": "Bayer Egypt",
+    "default_dosage": "1 mg three times daily (titrate)"
+  },
+  {
+    "name": "Reopro",
+    "name_ar": "ريوبرو",
+    "generic_name": "Abciximab",
+    "category": "GP IIb/IIIa Inhibitors",
+    "manufacturer": "Lilly Egypt",
+    "default_dosage": "0.25 mg/kg IV bolus then 0.125 mcg/kg/min"
+  },
+  {
+    "name": "Integrilin",
+    "name_ar": "إنتجريلين",
+    "generic_name": "Eptifibatide",
+    "category": "GP IIb/IIIa Inhibitors",
+    "manufacturer": "Merck Egypt",
+    "default_dosage": "180 mcg/kg IV bolus then 2 mcg/kg/min"
+  },
+  {
+    "name": "Aggrastat",
+    "name_ar": "أجراستات",
+    "generic_name": "Tirofiban",
+    "category": "GP IIb/IIIa Inhibitors",
+    "manufacturer": "MSD Egypt",
+    "default_dosage": "25 mcg/kg IV bolus then 0.15 mcg/kg/min"
+  },
+  {
+    "name": "Fragmin",
+    "name_ar": "فراجمين",
+    "generic_name": "Dalteparin",
+    "category": "Anticoagulants",
+    "manufacturer": "Pfizer Egypt",
+    "default_dosage": "5000 IU SC once daily (prophylaxis)"
+  },
+  {
+    "name": "Arixtra",
+    "name_ar": "أريكسترا",
+    "generic_name": "Fondaparinux",
+    "category": "Anticoagulants",
+    "manufacturer": "GlaxoSmithKline Egypt",
+    "default_dosage": "2.5 mg SC once daily"
+  },
+  {
+    "name": "Angised",
+    "name_ar": "أنجيسيد",
+    "generic_name": "Nitroglycerin (Sublingual)",
+    "category": "Nitrates",
+    "manufacturer": "EIPICO",
+    "default_dosage": "0.5 mg sublingual PRN"
+  },
+  {
+    "name": "Cardiazem",
+    "name_ar": "كارديازيم",
+    "generic_name": "Diltiazem",
+    "category": "Calcium Channel Blockers",
+    "manufacturer": "Pharco Pharmaceuticals",
+    "default_dosage": "120 mg once daily (SR)"
+  },
+  {
+    "name": "Tenoretic",
+    "name_ar": "تينوريتك",
+    "generic_name": "Atenolol + Chlorthalidone",
+    "category": "Beta-Blockers (Combination)",
+    "manufacturer": "AstraZeneca Egypt",
+    "default_dosage": "50/25 mg once daily"
+  },
+  {
+    "name": "Lisinopril EPICO",
+    "name_ar": "ليسينوبريل إيبيكو",
+    "generic_name": "Lisinopril",
+    "category": "ACE Inhibitors",
+    "manufacturer": "EIPICO",
+    "default_dosage": "10 mg once daily"
+  },
+  {
+    "name": "Amvasc",
+    "name_ar": "أمفاسك",
+    "generic_name": "Amlodipine",
+    "category": "Calcium Channel Blockers",
+    "manufacturer": "Marcyrl",
+    "default_dosage": "5 mg once daily"
+  },
+  {
+    "name": "Ezithro",
+    "name_ar": "إيزيثرو",
+    "generic_name": "Rosuvastatin",
+    "category": "Statins",
+    "manufacturer": "EIPICO",
+    "default_dosage": "10 mg once daily"
+  },
+  {
+    "name": "Thiazide EIPICO",
+    "name_ar": "ثيازيد إيبيكو",
+    "generic_name": "Hydrochlorothiazide",
+    "category": "Diuretics",
+    "manufacturer": "EIPICO",
+    "default_dosage": "25 mg once daily"
+  },
+  {
+    "name": "Spirono",
+    "name_ar": "سبيرونو",
+    "generic_name": "Spironolactone",
+    "category": "Diuretics",
+    "manufacturer": "EIPICO",
+    "default_dosage": "25 mg once daily"
+  },
+  {
+    "name": "Coumadin",
+    "name_ar": "كومادين",
+    "generic_name": "Warfarin",
+    "category": "Anticoagulants",
+    "manufacturer": "BMS Egypt",
+    "default_dosage": "5 mg once daily (INR-guided)"
+  },
+  {
+    "name": "Lixiana",
+    "name_ar": "ليكسيانا",
+    "generic_name": "Edoxaban",
+    "category": "Anticoagulants",
+    "manufacturer": "Daiichi Sankyo Egypt",
+    "default_dosage": "60 mg once daily"
+  },
+  {
+    "name": "Tritazide",
+    "name_ar": "تريتازيد",
+    "generic_name": "Ramipril + Hydrochlorothiazide",
+    "category": "ACE Inhibitors (Combination)",
+    "manufacturer": "Sanofi Egypt",
+    "default_dosage": "5/25 mg once daily"
+  },
+  {
+    "name": "Coveram",
+    "name_ar": "كوفيرام",
+    "generic_name": "Perindopril + Amlodipine",
+    "category": "ACE Inhibitors (Combination)",
+    "manufacturer": "Servier Egypt",
+    "default_dosage": "5/5 mg once daily"
+  },
+  {
+    "name": "Triplixam",
+    "name_ar": "تريبليكسام",
+    "generic_name": "Perindopril + Amlodipine + Indapamide",
+    "category": "Triple Combination Antihypertensive",
+    "manufacturer": "Servier Egypt",
+    "default_dosage": "5/5/1.25 mg once daily"
+  },
+  {
+    "name": "Lotensin",
+    "name_ar": "لوتنسين",
+    "generic_name": "Benazepril",
+    "category": "ACE Inhibitors",
+    "manufacturer": "Novartis Egypt",
+    "default_dosage": "10 mg once daily"
+  },
+  {
+    "name": "Bisoprolol EIPICO",
+    "name_ar": "بيزوبرولول إيبيكو",
+    "generic_name": "Bisoprolol",
+    "category": "Beta-Blockers",
+    "manufacturer": "EIPICO",
+    "default_dosage": "5 mg once daily"
+  },
+  {
+    "name": "Blopress",
+    "name_ar": "بلوبريس",
+    "generic_name": "Candesartan",
+    "category": "ARBs",
+    "manufacturer": "Takeda Egypt",
+    "default_dosage": "8 mg once daily"
+  },
+  {
+    "name": "Leflox",
+    "name_ar": "ليفلوكس",
+    "generic_name": "Amlodipine",
+    "category": "Calcium Channel Blockers",
+    "manufacturer": "Sedico",
+    "default_dosage": "5 mg once daily"
+  },
+  {
+    "name": "Duoplavin",
+    "name_ar": "ديوبلافين",
+    "generic_name": "Clopidogrel + Aspirin",
+    "category": "Antiplatelets (Combination)",
+    "manufacturer": "Sanofi Egypt",
+    "default_dosage": "75/100 mg once daily"
+  },
+  {
+    "name": "Iperten",
+    "name_ar": "إيبرتن",
+    "generic_name": "Irbesartan",
+    "category": "ARBs",
+    "manufacturer": "Marcyrl",
+    "default_dosage": "150 mg once daily"
+  },
+  {
+    "name": "Diovane",
+    "name_ar": "ديوفاني",
+    "generic_name": "Valsartan",
+    "category": "ARBs",
+    "manufacturer": "Pharco Pharmaceuticals",
+    "default_dosage": "80 mg once daily"
+  },
+  {
+    "name": "Lipiget",
+    "name_ar": "ليبيجيت",
+    "generic_name": "Atorvastatin",
+    "category": "Statins",
+    "manufacturer": "Pharco Pharmaceuticals",
+    "default_dosage": "20 mg once daily at bedtime"
+  },
+  {
+    "name": "Rosulip",
+    "name_ar": "روزوليب",
+    "generic_name": "Rosuvastatin",
+    "category": "Statins",
+    "manufacturer": "EIPICO",
+    "default_dosage": "10 mg once daily"
+  },
+  {
+    "name": "Ivabid",
+    "name_ar": "إيفابيد",
+    "generic_name": "Ivabradine",
+    "category": "Heart Failure",
+    "manufacturer": "Marcyrl",
+    "default_dosage": "5 mg twice daily"
+  },
+  {
+    "name": "Sacvent",
+    "name_ar": "ساكفينت",
+    "generic_name": "Sacubitril + Valsartan",
+    "category": "Heart Failure",
+    "manufacturer": "Marcyrl",
+    "default_dosage": "49/51 mg twice daily"
+  },
+  {
+    "name": "Empacoza",
+    "name_ar": "إمباكوزا",
+    "generic_name": "Empagliflozin",
+    "category": "SGLT2 Inhibitors",
+    "manufacturer": "Marcyrl",
+    "default_dosage": "10 mg once daily"
+  },
+  {
+    "name": "Dapacure",
+    "name_ar": "داباكيور",
+    "generic_name": "Dapagliflozin",
+    "category": "SGLT2 Inhibitors",
+    "manufacturer": "Pharco Pharmaceuticals",
+    "default_dosage": "10 mg once daily"
+  },
+  {
+    "name": "Nitrostat",
+    "name_ar": "نيتروستات",
+    "generic_name": "Nitroglycerin (Sublingual Tablets)",
+    "category": "Nitrates",
+    "manufacturer": "Pfizer Egypt",
+    "default_dosage": "0.4 mg sublingual PRN"
+  }
+]

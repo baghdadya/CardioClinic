@@ -1,4 +1,4 @@
 // Single source of truth for app version.
 // Update THIS file when releasing a new version.
 // Must match: package.json, backend/pyproject.toml, docs/HANDOVER.md
-export const APP_VERSION = "0.7.2";
+export const APP_VERSION = "0.8.0";

@@ -34,26 +34,30 @@ interface PillItem {
 }
 
 const pillItems: PillItem[] = [
-  { label: "Patients", shortLabel: "Patients", path: "/patients", icon: Users },
+  { label: "Patients", shortLabel: "Patients", path: "/patients", icon: Users, roles: ["admin", "doctor", "nurse"] },
   { label: "Appointments", shortLabel: "Appts", path: "/appointments", icon: CalendarDays },
-  { label: "Medications", shortLabel: "Meds", path: "/medications", icon: Pill },
-  { label: "Instructions", shortLabel: "Instructions", path: "/instructions", icon: FileText },
-  { label: "Risk Calculators", shortLabel: "Risk", path: "/risk-calculators", icon: Calculator },
-  { label: "Drug Interactions", shortLabel: "Drug", path: "/drug-interactions", icon: FlaskConical },
-  { label: "User Management", shortLabel: "Users", path: "/users", icon: UserCog, roles: ["doctor"] },
-  { label: "Audit Log", shortLabel: "Audit", path: "/audit-log", icon: ShieldCheck, roles: ["doctor"] },
+  { label: "Medications", shortLabel: "Meds", path: "/medications", icon: Pill, roles: ["admin", "doctor", "nurse"] },
+  { label: "Instructions", shortLabel: "Instructions", path: "/instructions", icon: FileText, roles: ["admin", "doctor", "nurse"] },
+  { label: "Risk Calculators", shortLabel: "Risk", path: "/risk-calculators", icon: Calculator, roles: ["admin", "doctor", "nurse"] },
+  { label: "Drug Interactions", shortLabel: "Drug", path: "/drug-interactions", icon: FlaskConical, roles: ["admin", "doctor", "nurse"] },
+  { label: "User Management", shortLabel: "Users", path: "/users", icon: UserCog, roles: ["admin", "doctor"] },
+  { label: "Audit Log", shortLabel: "Audit", path: "/audit-log", icon: ShieldCheck, roles: ["admin", "doctor"] },
 ];
 
 /* ---------- helpers ---------- */
 
 function roleBadgeColor(role: UserRole) {
   switch (role) {
+    case "admin":
+      return "bg-purple-50 text-purple-700 ring-1 ring-purple-600/10";
     case "doctor":
       return "bg-indigo-50 text-indigo-700 ring-1 ring-indigo-600/10";
     case "nurse":
       return "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-600/10";
     case "receptionist":
       return "bg-amber-50 text-amber-700 ring-1 ring-amber-600/10";
+    default:
+      return "bg-slate-50 text-slate-700 ring-1 ring-slate-600/10";
   }
 }
 

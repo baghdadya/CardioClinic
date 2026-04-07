@@ -23,12 +23,14 @@ function Skeleton({ className }: { className?: string }) {
 }
 
 const roleColors: Record<UserRole, string> = {
+  admin: "bg-purple-50 text-purple-700",
   doctor: "bg-blue-50 text-blue-700",
   nurse: "bg-emerald-50 text-emerald-700",
   receptionist: "bg-amber-50 text-amber-700",
 };
 
 const roleOptions = [
+  { value: "admin", label: "Global Admin" },
   { value: "doctor", label: "Doctor" },
   { value: "nurse", label: "Nurse" },
   { value: "receptionist", label: "Receptionist" },
@@ -55,7 +57,7 @@ export default function UsersPage() {
 
   // Edit dialog
   const [editUser, setEditUser] = useState<User | null>(null);
-  const [editForm, setEditForm] = useState({ full_name: "", role: "" as UserRole, is_active: true, password: "" });
+  const [editForm, setEditForm] = useState({ full_name: "", email: "", role: "" as UserRole, is_active: true, password: "" });
   const [editSubmitting, setEditSubmitting] = useState(false);
   const [editErrors, setEditErrors] = useState<Record<string, string>>({});
 
@@ -110,7 +112,7 @@ export default function UsersPage() {
   // --- Edit User ---
   const openEditDialog = (user: User) => {
     setEditUser(user);
-    setEditForm({ full_name: user.full_name, role: user.role, is_active: user.is_active, password: "" });
+    setEditForm({ full_name: user.full_name, email: user.email, role: user.role, is_active: user.is_active, password: "" });
     setEditErrors({});
   };
 
@@ -127,6 +129,7 @@ export default function UsersPage() {
     try {
       const payload: Record<string, unknown> = {};
       if (editForm.full_name !== editUser.full_name) payload.full_name = editForm.full_name;
+      if (editForm.email !== editUser.email) payload.email = editForm.email;
       if (editForm.role !== editUser.role) payload.role = editForm.role;
       if (editForm.is_active !== editUser.is_active) payload.is_active = editForm.is_active;
       if (editForm.password.trim()) payload.password = editForm.password.trim();
@@ -399,6 +402,12 @@ export default function UsersPage() {
               value={editForm.full_name}
               onChange={(e) => setEditForm({ ...editForm, full_name: e.target.value })}
               error={editErrors.full_name}
+            />
+            <Input
+              label="Email"
+              type="email"
+              value={editForm.email}
+              onChange={(e) => setEditForm({ ...editForm, email: e.target.value })}
             />
             <Input
               label="New Password"

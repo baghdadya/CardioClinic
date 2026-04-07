@@ -92,7 +92,7 @@ interface NavCard {
   glowColor: string;
   statKey?: keyof DashboardStats;
   statLabel?: string;
-  doctorOnly?: boolean;
+  roles?: string[];
 }
 
 const navCards: NavCard[] = [
@@ -105,6 +105,7 @@ const navCards: NavCard[] = [
     glowColor: "hover:shadow-indigo-500/25",
     statKey: "total_patients",
     statLabel: "patients",
+    roles: ["admin", "doctor", "nurse"],
   },
   {
     title: "Appointments",
@@ -125,6 +126,7 @@ const navCards: NavCard[] = [
     glowColor: "hover:shadow-emerald-500/25",
     statKey: "active_medications",
     statLabel: "active",
+    roles: ["admin", "doctor", "nurse"],
   },
   {
     title: "Patient Instructions",
@@ -133,6 +135,7 @@ const navCards: NavCard[] = [
     icon: FileText,
     gradient: "from-violet-500 to-violet-600",
     glowColor: "hover:shadow-violet-500/25",
+    roles: ["admin", "doctor", "nurse"],
   },
   {
     title: "Risk Calculators",
@@ -141,6 +144,7 @@ const navCards: NavCard[] = [
     icon: Calculator,
     gradient: "from-amber-500 to-amber-600",
     glowColor: "hover:shadow-amber-500/25",
+    roles: ["admin", "doctor", "nurse"],
   },
   {
     title: "Drug Interactions",
@@ -149,6 +153,7 @@ const navCards: NavCard[] = [
     icon: FlaskConical,
     gradient: "from-rose-500 to-rose-600",
     glowColor: "hover:shadow-rose-500/25",
+    roles: ["admin", "doctor", "nurse"],
   },
   {
     title: "User Management",
@@ -157,7 +162,7 @@ const navCards: NavCard[] = [
     icon: UserCog,
     gradient: "from-slate-500 to-slate-600",
     glowColor: "hover:shadow-slate-500/25",
-    doctorOnly: true,
+    roles: ["admin", "doctor"],
   },
   {
     title: "Audit Log",
@@ -166,7 +171,7 @@ const navCards: NavCard[] = [
     icon: ShieldCheck,
     gradient: "from-gray-500 to-gray-600",
     glowColor: "hover:shadow-gray-500/25",
-    doctorOnly: true,
+    roles: ["admin", "doctor"],
   },
 ];
 
@@ -240,7 +245,7 @@ export default function ModernDashboardPage() {
   const visibleCards = useMemo(
     () =>
       navCards.filter(
-        (card) => !card.doctorOnly || user?.role === "doctor"
+        (card) => !card.roles || (user && card.roles.includes(user.role))
       ),
     [user]
   );

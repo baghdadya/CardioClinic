@@ -1,4 +1,4 @@
-export type UserRole = 'doctor' | 'nurse' | 'receptionist'
+export type UserRole = 'admin' | 'doctor' | 'nurse' | 'receptionist'
 export type Sex = 'male' | 'female'
 export type MaritalStatus = 'single' | 'married' | 'divorced' | 'widowed'
 export type SmokingStatus = 'never' | 'former' | 'current'

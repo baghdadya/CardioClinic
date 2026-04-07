@@ -60,8 +60,10 @@ def require_role(*roles: UserRole):
 
 
 # Common dependency shortcuts
+# admin has full access everywhere — included in all role groups
 CurrentUser = Annotated[User, Depends(get_current_user)]
-DoctorOnly = Annotated[User, Depends(require_role(UserRole.doctor))]
-ClinicalStaff = Annotated[User, Depends(require_role(UserRole.doctor, UserRole.nurse))]
-AnyStaff = Annotated[User, Depends(require_role(UserRole.doctor, UserRole.nurse, UserRole.receptionist))]
+AdminOnly = Annotated[User, Depends(require_role(UserRole.admin))]
+DoctorOnly = Annotated[User, Depends(require_role(UserRole.admin, UserRole.doctor))]
+ClinicalStaff = Annotated[User, Depends(require_role(UserRole.admin, UserRole.doctor, UserRole.nurse))]
+AnyStaff = Annotated[User, Depends(require_role(UserRole.admin, UserRole.doctor, UserRole.nurse, UserRole.receptionist))]
 DbSession = Annotated[AsyncSession, Depends(get_db)]

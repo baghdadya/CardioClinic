@@ -31,44 +31,48 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { label: "Dashboard", path: "/", icon: <LayoutDashboard size={20} /> },
-  { label: "Patients", path: "/patients", icon: <Users size={20} /> },
+  { label: "Patients", path: "/patients", icon: <Users size={20} />, roles: ["admin", "doctor", "nurse"] },
   {
     label: "Appointments",
     path: "/appointments",
     icon: <CalendarDays size={20} />,
   },
-  { label: "Medications", path: "/medications", icon: <Pill size={20} /> },
+  { label: "Medications", path: "/medications", icon: <Pill size={20} />, roles: ["admin", "doctor", "nurse"] },
   {
     label: "Patient Instructions",
     path: "/instructions",
     icon: <FileText size={20} />,
+    roles: ["admin", "doctor", "nurse"],
   },
   {
     label: "Risk Calculators",
     path: "/risk-calculators",
     icon: <Calculator size={20} />,
+    roles: ["admin", "doctor", "nurse"],
   },
   {
     label: "Drug Interactions",
     path: "/drug-interactions",
     icon: <FlaskConical size={20} />,
+    roles: ["admin", "doctor", "nurse"],
   },
   {
     label: "User Management",
     path: "/users",
     icon: <UserCog size={20} />,
-    roles: ["doctor"],
+    roles: ["admin", "doctor"],
   },
   {
     label: "Audit Log",
     path: "/audit-log",
     icon: <ShieldCheck size={20} />,
-    roles: ["doctor"],
+    roles: ["admin", "doctor"],
   },
 ];
 
 function RoleBadge({ role }: { role: UserRole }) {
   const colors: Record<UserRole, string> = {
+    admin: "bg-purple-400/20 text-purple-200",
     doctor: "bg-indigo-400/20 text-indigo-200",
     nurse: "bg-emerald-400/20 text-emerald-200",
     receptionist: "bg-amber-400/20 text-amber-200",

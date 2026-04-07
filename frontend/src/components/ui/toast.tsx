@@ -64,7 +64,7 @@ function ToastProvider({ children }: { children: React.ReactNode }) {
   const [toasts, setToasts] = React.useState<Toast[]>([]);
 
   const toast = React.useCallback((opts: Omit<Toast, "id">) => {
-    const id = crypto.randomUUID();
+    const id = typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2);
     setToasts((prev) => [...prev, { ...opts, id }]);
   }, []);
 

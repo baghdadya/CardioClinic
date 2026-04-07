@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import { motion } from "framer-motion";
-import { ShieldCheck, UserPlus, Pencil, UserX } from "lucide-react";
+import { ShieldCheck, UserPlus, Pencil, UserX, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -146,6 +146,27 @@ export default function UsersPage() {
     }
   };
 
+  // --- Delete User ---
+  const [deleteUser, setDeleteUser] = useState<User | null>(null);
+  const [deletingUser, setDeletingUser] = useState(false);
+
+  const handleDeleteUser = async () => {
+    if (!deleteUser) return;
+    setDeletingUser(true);
+    try {
+      await api.delete(`/users/${deleteUser.id}`);
+      toast({ variant: "success", title: "User deleted" });
+      setDeleteUser(null);
+      fetchUsers();
+    } catch (err: unknown) {
+      const errObj = err as { response?: { data?: { detail?: string } } };
+      const msg = errObj?.response?.data?.detail ?? "Failed to delete user";
+      toast({ variant: "error", title: msg });
+    } finally {
+      setDeletingUser(false);
+    }
+  };
+
   // --- Deactivate User ---
   const handleDeactivate = async () => {
     if (!deactivateUser) return;
@@ -288,11 +309,21 @@ export default function UsersPage() {
                             variant="ghost"
                             size="sm"
                             onClick={() => setDeactivateUser(user)}
-                            className="text-destructive hover:text-destructive"
+                            className="text-amber-600 hover:text-amber-700"
+                            title="Deactivate"
                           >
                             <UserX size={14} />
                           </Button>
                         )}
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => setDeleteUser(user)}
+                          className="text-destructive hover:text-destructive"
+                          title="Delete"
+                        >
+                          <Trash2 size={14} />
+                        </Button>
                       </div>
                     </td>
                   </tr>
@@ -425,6 +456,26 @@ export default function UsersPage() {
           </Button>
           <Button variant="destructive" loading={deactivating} onClick={handleDeactivate}>
             Deactivate
+          </Button>
+        </DialogFooter>
+      </Dialog>
+
+      {/* Delete User Confirmation Dialog */}
+      <Dialog open={!!deleteUser} onClose={() => { if (!deletingUser) setDeleteUser(null); }}>
+        <DialogHeader>
+          <DialogTitle>Delete User</DialogTitle>
+          <DialogDescription>
+            Are you sure you want to permanently delete{" "}
+            <span className="font-semibold text-foreground">{deleteUser?.full_name}</span>?
+            This action cannot be undone.
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <Button variant="secondary" onClick={() => setDeleteUser(null)} disabled={deletingUser}>
+            Cancel
+          </Button>
+          <Button variant="destructive" loading={deletingUser} onClick={handleDeleteUser}>
+            Delete Permanently
           </Button>
         </DialogFooter>
       </Dialog>

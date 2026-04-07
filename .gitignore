@@ -58,3 +58,5 @@ Source/
 
 # Claude Code
 .claude/
+backup_full.sql
+backup_full.sql.gz

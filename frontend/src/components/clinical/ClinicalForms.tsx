@@ -1360,7 +1360,7 @@ interface PrescriptionItemRow {
 
 function emptyItem(): PrescriptionItemRow {
   return {
-    key: crypto.randomUUID(),
+    key: typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2),
     medication_id: "",
     dosage: "",
     frequency: "",

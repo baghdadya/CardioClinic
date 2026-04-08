@@ -1,20 +1,17 @@
 import { useEffect, useState, useCallback } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
-  Search,
   ClipboardList,
   Plus,
   Printer,
   Eye,
-  FileCheck,
-  Ban,
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import api from "@/services/api";
-import type { Prescription, Patient, PaginatedResponse, Medication } from "@/types";
+import type { Prescription, Patient, Medication } from "@/types";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -436,7 +433,6 @@ function NewPrescriptionDialog({
 
 export default function PrescriptionsPage() {
   const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
   const { toast } = useToast();
 
   const [prescriptions, setPrescriptions] = useState<Prescription[]>([]);
@@ -446,8 +442,7 @@ export default function PrescriptionsPage() {
   const pageSize = 15;
 
   // Filters
-  const [search, setSearch] = useState(searchParams.get("search") || "");
-  const [statusFilter, setStatusFilter] = useState(searchParams.get("status") || "");
+  const [statusFilter, setStatusFilter] = useState("");
 
   // Expanded prescription view
   const [expandedRxId, setExpandedRxId] = useState<string | null>(null);

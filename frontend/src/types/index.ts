@@ -210,6 +210,7 @@ export interface PrescriptionItem {
   id: string
   prescription_id: string
   medication_id: string
+  medication_name?: string
   dosage: string
   frequency: string
   duration?: string
@@ -222,6 +223,8 @@ export interface Prescription {
   id: string
   patient_id: string
   prescribed_by: string
+  patient_name?: string
+  prescriber_name?: string
   prescribed_at: string
   status: PrescriptionStatus
   finalized_at?: string

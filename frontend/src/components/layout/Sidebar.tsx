@@ -17,6 +17,7 @@ import {
   FlaskConical,
   FileText,
   UserCog,
+  ClipboardList,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuthStore } from "@/stores/authStore";
@@ -36,6 +37,12 @@ const navItems: NavItem[] = [
     label: "Appointments",
     path: "/appointments",
     icon: <CalendarDays size={20} />,
+  },
+  {
+    label: "Prescriptions",
+    path: "/prescriptions",
+    icon: <ClipboardList size={20} />,
+    roles: ["admin", "doctor"],
   },
   { label: "Medications", path: "/medications", icon: <Pill size={20} />, roles: ["admin", "doctor", "nurse"] },
   {

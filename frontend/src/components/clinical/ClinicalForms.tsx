@@ -1393,7 +1393,7 @@ export function AddPrescriptionDialog({
     if (!open) return;
     (async () => {
       try {
-        const { data } = await api.get("/medications", { params: { page_size: 200 } });
+        const { data } = await api.get("/medications", { params: { page_size: 2000 } });
         setMedications(data.items ?? data);
       } catch {
         // silent

@@ -8,8 +8,7 @@ import {
   FileText,
   Calculator,
   FlaskConical,
-  UserCog,
-  ShieldCheck,
+  ClipboardList,
   ChevronRight,
   Clock,
   Calendar,
@@ -118,8 +117,19 @@ const navCards: NavCard[] = [
     statLabel: "today",
   },
   {
+    title: "Prescriptions",
+    description: "Create, print and send prescriptions",
+    path: "/prescriptions",
+    icon: ClipboardList,
+    gradient: "from-teal-500 to-teal-600",
+    glowColor: "hover:shadow-teal-500/25",
+    statKey: "pending_prescriptions",
+    statLabel: "pending",
+    roles: ["admin", "doctor"],
+  },
+  {
     title: "Medications",
-    description: "Prescriptions and drug management",
+    description: "Drug catalog and management",
     path: "/medications",
     icon: Pill,
     gradient: "from-emerald-500 to-emerald-600",
@@ -154,24 +164,6 @@ const navCards: NavCard[] = [
     gradient: "from-rose-500 to-rose-600",
     glowColor: "hover:shadow-rose-500/25",
     roles: ["admin", "doctor", "nurse"],
-  },
-  {
-    title: "User Management",
-    description: "Manage staff accounts and roles",
-    path: "/users",
-    icon: UserCog,
-    gradient: "from-slate-500 to-slate-600",
-    glowColor: "hover:shadow-slate-500/25",
-    roles: ["admin", "doctor"],
-  },
-  {
-    title: "Audit Log",
-    description: "System activity and security log",
-    path: "/audit-log",
-    icon: ShieldCheck,
-    gradient: "from-gray-500 to-gray-600",
-    glowColor: "hover:shadow-gray-500/25",
-    roles: ["admin", "doctor"],
   },
 ];
 
@@ -305,7 +297,7 @@ export default function ModernDashboardPage() {
         variants={container}
         initial="hidden"
         animate="show"
-        className="grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4"
+        className="flex flex-wrap justify-center gap-4"
       >
         {visibleCards.map((card) => {
           const Icon = card.icon;
@@ -316,7 +308,7 @@ export default function ModernDashboardPage() {
               variants={fadeUp}
               onClick={() => navigate(card.path)}
               className={cn(
-                "group flex w-full flex-col items-center rounded-2xl border border-white/60 bg-white px-4 py-5 text-center shadow-[0_8px_30px_rgba(0,0,0,0.12)] transition-all duration-300",
+                "group flex w-[calc(50%-8px)] sm:w-[calc(33.333%-11px)] lg:w-[calc(25%-12px)] flex-col items-center rounded-2xl border border-white/60 bg-white px-4 py-5 text-center shadow-[0_8px_30px_rgba(0,0,0,0.12)] transition-all duration-300",
                 "hover:-translate-y-2 hover:shadow-[0_16px_40px_rgba(0,0,0,0.18)]",
                 card.glowColor
               )}

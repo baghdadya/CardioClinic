@@ -21,6 +21,7 @@ class PrescriptionItemResponse(BaseModel):
     id: UUID
     prescription_id: UUID
     medication_id: UUID
+    medication_name: Optional[str] = None
     dosage: str
     frequency: str
     duration: Optional[str] = None
@@ -40,6 +41,8 @@ class PrescriptionResponse(BaseModel):
     id: UUID
     patient_id: UUID
     prescribed_by: UUID
+    patient_name: Optional[str] = None
+    prescriber_name: Optional[str] = None
     prescribed_at: datetime
     status: PrescriptionStatus
     finalized_at: Optional[datetime] = None

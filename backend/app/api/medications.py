@@ -53,7 +53,7 @@ async def list_medications(
     search: str | None = Query(None, min_length=1),
     active_only: bool = True,
     page: int = Query(1, ge=1),
-    page_size: int = Query(50, ge=1, le=200),
+    page_size: int = Query(50, ge=1, le=2000),
 ):
     query = select(
         MedicationMaster.id, MedicationMaster.name, MedicationMaster.name_ar,

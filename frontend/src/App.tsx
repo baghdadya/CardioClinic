@@ -16,6 +16,7 @@ import AuditLogPage from "@/pages/AuditLogPage";
 import RiskCalculatorsPage from "@/pages/RiskCalculatorsPage";
 import DrugInteractionsPage from "@/pages/DrugInteractionsPage";
 import InstructionsPage from "@/pages/InstructionsPage";
+import PrescriptionsPage from "@/pages/PrescriptionsPage";
 
 function App() {
   const layout = useThemeStore((s) => s.layout);
@@ -39,6 +40,7 @@ function App() {
           <Route path="/patients" element={<PatientsPage />} />
           <Route path="/patients/:id" element={<PatientDetailPage />} />
           <Route path="/appointments" element={<AppointmentsPage />} />
+          <Route path="/prescriptions" element={<PrescriptionsPage />} />
           <Route path="/medications" element={<MedicationsPage />} />
           <Route path="/audit-log" element={<AuditLogPage />} />
           <Route path="/users" element={<UsersPage />} />

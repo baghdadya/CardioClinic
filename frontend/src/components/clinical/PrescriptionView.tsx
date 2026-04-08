@@ -6,6 +6,7 @@ import {
   MessageCircle,
   Ban,
   FileCheck,
+  Printer,
 } from "lucide-react";
 
 import api from "@/services/api";
@@ -63,13 +64,14 @@ function StatusBadge({ status }: { status: string }) {
 export function PrescriptionView({
   patientId,
   prescription: rx,
-  patientName: _patientName,
+  patientName,
   onUpdate,
 }: PrescriptionViewProps) {
   const { toast } = useToast();
 
   const [finalizing, setFinalizing] = useState(false);
   const [downloading, setDownloading] = useState(false);
+  const [downloadingBlank, setDownloadingBlank] = useState(false);
   const [emailing, setEmailing] = useState(false);
   const [voiding, setVoiding] = useState(false);
 
@@ -128,6 +130,34 @@ export function PrescriptionView({
     }
   }
 
+  async function handleDownloadBlank() {
+    setDownloadingBlank(true);
+    try {
+      const { data } = await api.post(
+        "/prescriptions/blank-pdf",
+        { patient_id: patientId },
+        { responseType: "blob" }
+      );
+      const url = URL.createObjectURL(data);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "prescription_blank.pdf";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      toast({ variant: "success", title: "Blank prescription downloaded" });
+    } catch (err: any) {
+      toast({
+        variant: "error",
+        title: "Blank PDF failed",
+        description: err.response?.data?.detail ?? "Something went wrong.",
+      });
+    } finally {
+      setDownloadingBlank(false);
+    }
+  }
+
   async function handleEmailSend() {
     setEmailing(true);
     try {
@@ -147,26 +177,58 @@ export function PrescriptionView({
     }
   }
 
-  function handleWhatsApp() {
-    const lines = rx.items.map(
-      (item, i) =>
-        `${i + 1}. ${item.dosage} - ${item.frequency}${item.duration ? ` for ${item.duration}` : ""}`
-    );
-    const message = [
-      `Your prescription from Maadi Clinic - Dr. ${rx.prescribed_by}`,
-      "",
-      ...lines,
-      "",
-      rx.notes ? `Notes: ${rx.notes}` : "",
-    ]
-      .filter(Boolean)
-      .join("\n");
+  const [sharingWhatsApp, setSharingWhatsApp] = useState(false);
 
-    window.open(
-      `https://wa.me/?text=${encodeURIComponent(message)}`,
-      "_blank",
-      "noopener,noreferrer"
-    );
+  async function handleWhatsApp() {
+    // Share the actual PDF file via Web Share API (works on mobile + desktop with WhatsApp)
+    setSharingWhatsApp(true);
+    try {
+      // First generate the PDF
+      const { data } = await api.post(`${basePath}/pdf`, null, {
+        responseType: "blob",
+      });
+
+      const pdfFile = new File(
+        [data],
+        `prescription_${rx.id.slice(0, 8)}.pdf`,
+        { type: "application/pdf" }
+      );
+
+      // Try Web Share API with file
+      if (navigator.share && navigator.canShare?.({ files: [pdfFile] })) {
+        await navigator.share({
+          title: `Prescription - ${patientName}`,
+          text: `Prescription from Maadi Clinic - Dr. Yasser M.K. Baghdady`,
+          files: [pdfFile],
+        });
+        toast({ variant: "success", title: "Prescription shared" });
+      } else {
+        // Fallback: download the PDF so user can attach manually
+        const url = URL.createObjectURL(data);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `prescription_${rx.id.slice(0, 8)}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+        toast({
+          variant: "success",
+          title: "PDF downloaded",
+          description: "Share the downloaded PDF via WhatsApp.",
+        });
+      }
+    } catch (err: any) {
+      if (err.name !== "AbortError") {
+        toast({
+          variant: "error",
+          title: "Share failed",
+          description: err.response?.data?.detail ?? "Something went wrong.",
+        });
+      }
+    } finally {
+      setSharingWhatsApp(false);
+    }
   }
 
   async function handleVoid() {
@@ -224,7 +286,7 @@ export function PrescriptionView({
             </AnimatePresence>
           </div>
           <span className="text-xs text-muted-foreground">
-            by {rx.prescribed_by}
+            by {rx.prescriber_name || rx.prescribed_by}
           </span>
         </div>
 
@@ -250,7 +312,7 @@ export function PrescriptionView({
                     {idx + 1}
                   </td>
                   <td className="px-5 py-2.5 font-medium text-foreground">
-                    {item.medication_id}
+                    {item.medication_name || item.medication_id}
                   </td>
                   <td className="px-5 py-2.5">{item.dosage}</td>
                   <td className="px-5 py-2.5">{item.frequency}</td>
@@ -295,6 +357,16 @@ export function PrescriptionView({
                 </Button>
                 <Button
                   size="sm"
+                  variant="secondary"
+                  loading={downloadingBlank}
+                  onClick={handleDownloadBlank}
+                >
+                  <Printer size={16} />
+                  Print Blank
+                </Button>
+                <div className="flex-1" />
+                <Button
+                  size="sm"
                   variant="destructive"
                   onClick={() => setVoidDialogOpen(true)}
                 >
@@ -318,17 +390,27 @@ export function PrescriptionView({
                 <Button
                   size="sm"
                   variant="secondary"
+                  loading={downloadingBlank}
+                  onClick={handleDownloadBlank}
+                >
+                  <Printer size={16} />
+                  Print Blank
+                </Button>
+                <Button
+                  size="sm"
+                  variant="secondary"
                   onClick={() => {
                     setEmailAddress("");
                     setEmailDialogOpen(true);
                   }}
                 >
                   <Mail size={16} />
-                  Email to Patient
+                  Email
                 </Button>
                 <Button
                   size="sm"
                   variant="secondary"
+                  loading={sharingWhatsApp}
                   onClick={handleWhatsApp}
                 >
                   <MessageCircle size={16} />

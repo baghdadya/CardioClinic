@@ -1,7 +1,7 @@
 {
-  "name": "CardioClinic",
-  "short_name": "CardioClinic",
-  "description": "Cardiology Practice Management System",
+  "name": "Maadi Clinic",
+  "short_name": "Maadi Clinic",
+  "description": "Maadi Clinic — Cardiology Practice Management System",
   "start_url": "/",
   "display": "standalone",
   "theme_color": "#4F46E5",

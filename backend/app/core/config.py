@@ -6,7 +6,7 @@ class Settings(BaseSettings):
 
     # Application
     APP_NAME: str = "CardioClinic"
-    VERSION: str = "0.1.0"
+    VERSION: str = "0.11.1"
     DEBUG: bool = False
 
     # Database

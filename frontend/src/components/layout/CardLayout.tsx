@@ -1,8 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Outlet, useLocation, useNavigate, NavLink } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import {
-  HeartPulse,
   ArrowLeft,
   LogOut,
   Users,
@@ -13,6 +12,8 @@ import {
   FlaskConical,
   UserCog,
   ShieldCheck,
+  ClipboardList,
+  Settings,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ToastProvider } from "@/components/ui/toast";
@@ -23,7 +24,7 @@ import { SyncConflictModal } from "@/components/SyncConflictModal";
 import { initSyncListeners } from "@/services/sync";
 import type { UserRole } from "@/types";
 
-/* ---------- pill nav items ---------- */
+/* ---------- pill nav items (clinical only) ---------- */
 
 interface PillItem {
   label: string;
@@ -36,12 +37,25 @@ interface PillItem {
 const pillItems: PillItem[] = [
   { label: "Patients", shortLabel: "Patients", path: "/patients", icon: Users, roles: ["admin", "doctor", "nurse"] },
   { label: "Appointments", shortLabel: "Appts", path: "/appointments", icon: CalendarDays },
+  { label: "Prescriptions", shortLabel: "Rx", path: "/prescriptions", icon: ClipboardList, roles: ["admin", "doctor"] },
   { label: "Medications", shortLabel: "Meds", path: "/medications", icon: Pill, roles: ["admin", "doctor", "nurse"] },
   { label: "Instructions", shortLabel: "Instructions", path: "/instructions", icon: FileText, roles: ["admin", "doctor", "nurse"] },
   { label: "Risk Calculators", shortLabel: "Risk", path: "/risk-calculators", icon: Calculator, roles: ["admin", "doctor", "nurse"] },
   { label: "Drug Interactions", shortLabel: "Drug", path: "/drug-interactions", icon: FlaskConical, roles: ["admin", "doctor", "nurse"] },
-  { label: "User Management", shortLabel: "Users", path: "/users", icon: UserCog, roles: ["admin", "doctor"] },
-  { label: "Audit Log", shortLabel: "Audit", path: "/audit-log", icon: ShieldCheck, roles: ["admin", "doctor"] },
+];
+
+/* ---------- settings menu items ---------- */
+
+interface SettingsItem {
+  label: string;
+  path: string;
+  icon: React.ElementType;
+  roles?: UserRole[];
+}
+
+const settingsItems: SettingsItem[] = [
+  { label: "User Management", path: "/users", icon: UserCog, roles: ["admin", "doctor"] },
+  { label: "Audit Log", path: "/audit-log", icon: ShieldCheck, roles: ["admin", "doctor"] },
 ];
 
 /* ---------- helpers ---------- */
@@ -74,8 +88,21 @@ export function CardLayout() {
   const navigate = useNavigate();
   const { user, logout } = useAuthStore();
   const [conflictOpen, setConflictOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const settingsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => initSyncListeners(), []);
+
+  // Close settings dropdown on outside click
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (settingsRef.current && !settingsRef.current.contains(e.target as Node)) {
+        setSettingsOpen(false);
+      }
+    }
+    if (settingsOpen) document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [settingsOpen]);
 
   const handleLogout = () => {
     logout();
@@ -88,22 +115,32 @@ export function CardLayout() {
     (item) => !item.roles || (user && item.roles.includes(user.role))
   );
 
+  const visibleSettings = settingsItems.filter(
+    (item) => !item.roles || (user && item.roles.includes(user.role))
+  );
+
+  const isSettingsPage = settingsItems.some((item) =>
+    location.pathname.startsWith(item.path)
+  );
+
   return (
     <ToastProvider>
       <div className="flex min-h-screen flex-col bg-background">
         {/* ---- Top Bar ---- */}
-        <header className="sticky top-0 z-30 flex h-16 shrink-0 items-center justify-between bg-white/80 px-4 shadow-[0_1px_3px_rgba(0,0,0,0.04)] backdrop-blur-xl sm:px-6">
+        <header className="sticky top-0 z-30 flex h-20 shrink-0 items-center justify-between bg-white/80 px-4 shadow-[0_1px_3px_rgba(0,0,0,0.04)] backdrop-blur-xl sm:px-6">
           {/* Left: Logo or Back */}
           <div className="flex items-center gap-3">
             {isHome ? (
-              <>
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-400 to-indigo-600 shadow-lg shadow-indigo-500/25">
-                  <HeartPulse size={22} className="text-white" />
-                </div>
-                <span className="text-lg font-bold tracking-tight text-slate-800">
-                  Maadi Clinic
-                </span>
-              </>
+              <button
+                onClick={() => navigate("/")}
+                className="flex items-center gap-2"
+              >
+                <img
+                  src="/logo.png"
+                  alt="Maadi Clinic"
+                  className="h-16 w-auto"
+                />
+              </button>
             ) : (
               <button
                 onClick={() => navigate("/")}
@@ -140,9 +177,62 @@ export function CardLayout() {
             </nav>
           )}
 
-          {/* Right: Sync, Theme Toggle, User, Logout */}
+          {/* Right: Sync, Settings gear, Theme Toggle, User, Logout */}
           <div className="flex items-center gap-3">
             <SyncIndicator onConflictClick={() => setConflictOpen(true)} />
+
+            {/* Settings gear dropdown */}
+            {visibleSettings.length > 0 && (
+              <div className="relative" ref={settingsRef}>
+                <button
+                  onClick={() => setSettingsOpen(!settingsOpen)}
+                  className={cn(
+                    "rounded-lg p-2 transition-colors",
+                    settingsOpen || isSettingsPage
+                      ? "bg-slate-100 text-slate-700"
+                      : "text-slate-400 hover:bg-slate-100 hover:text-slate-600"
+                  )}
+                  title="Settings"
+                >
+                  <Settings size={18} />
+                </button>
+                <AnimatePresence>
+                  {settingsOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 4, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 4, scale: 0.95 }}
+                      transition={{ duration: 0.15 }}
+                      className="absolute right-0 mt-2 w-52 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg"
+                    >
+                      {visibleSettings.map((item) => {
+                        const Icon = item.icon;
+                        const isActive = location.pathname.startsWith(item.path);
+                        return (
+                          <button
+                            key={item.path}
+                            onClick={() => {
+                              navigate(item.path);
+                              setSettingsOpen(false);
+                            }}
+                            className={cn(
+                              "flex w-full items-center gap-3 px-4 py-3 text-sm font-medium transition-colors",
+                              isActive
+                                ? "bg-indigo-50 text-indigo-700"
+                                : "text-slate-600 hover:bg-slate-50 hover:text-slate-800"
+                            )}
+                          >
+                            <Icon size={16} />
+                            {item.label}
+                          </button>
+                        );
+                      })}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            )}
+
             <ThemeToggle />
             {user && (
               <>
@@ -172,7 +262,7 @@ export function CardLayout() {
 
         {/* ---- Mobile pill navigation (below header) ---- */}
         {!isHome && (
-          <div className="sticky top-16 z-20 overflow-x-auto border-b border-slate-100 bg-white/90 px-4 py-2 backdrop-blur-md md:hidden">
+          <div className="sticky top-20 z-20 overflow-x-auto border-b border-slate-100 bg-white/90 px-4 py-2 backdrop-blur-md md:hidden">
             <div className="flex items-center gap-2">
               {visiblePills.map((pill) => {
                 const isActive = location.pathname.startsWith(pill.path);

@@ -2,7 +2,7 @@ import { useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { APP_VERSION } from "@/version";
 import { motion } from "framer-motion";
-import { HeartPulse, Eye, EyeOff, AlertCircle } from "lucide-react";
+import { Eye, EyeOff, AlertCircle } from "lucide-react";
 import { useAuthStore } from "@/stores/authStore";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -76,11 +76,12 @@ export default function LoginPage() {
           <div className="rounded-[20px] bg-white p-8 sm:p-10">
             {/* Branding */}
             <div className="mb-10 flex flex-col items-center">
-              <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-600 to-indigo-500 shadow-xl shadow-indigo-500/30">
-                <HeartPulse size={32} className="text-white" />
-              </div>
-              <h1 className="text-2xl font-bold text-slate-800">Maadi Clinic</h1>
-              <p className="mt-1.5 text-sm text-slate-500">
+              <img
+                src="/logo.png"
+                alt="Maadi Clinic"
+                className="mb-4 h-32 w-auto"
+              />
+              <p className="text-sm text-slate-500">
                 Sign in to your account
               </p>
             </div>

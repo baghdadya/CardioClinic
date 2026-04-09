@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { CardLayout } from "@/components/layout/CardLayout";
@@ -16,7 +17,8 @@ import AuditLogPage from "@/pages/AuditLogPage";
 import RiskCalculatorsPage from "@/pages/RiskCalculatorsPage";
 import DrugInteractionsPage from "@/pages/DrugInteractionsPage";
 import InstructionsPage from "@/pages/InstructionsPage";
-import PrescriptionsPage from "@/pages/PrescriptionsPage";
+
+const PrescriptionsPage = lazy(() => import("@/pages/PrescriptionsPage"));
 
 function App() {
   const layout = useThemeStore((s) => s.layout);
@@ -40,7 +42,7 @@ function App() {
           <Route path="/patients" element={<PatientsPage />} />
           <Route path="/patients/:id" element={<PatientDetailPage />} />
           <Route path="/appointments" element={<AppointmentsPage />} />
-          <Route path="/prescriptions" element={<PrescriptionsPage />} />
+          <Route path="/prescriptions" element={<Suspense fallback={<div className="p-8 text-center text-muted-foreground">Loading...</div>}><PrescriptionsPage /></Suspense>} />
           <Route path="/medications" element={<MedicationsPage />} />
           <Route path="/audit-log" element={<AuditLogPage />} />
           <Route path="/users" element={<UsersPage />} />

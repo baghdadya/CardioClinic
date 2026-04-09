@@ -456,9 +456,12 @@ export default function PrescriptionsPage() {
   // Blank PDF
   const [downloadingBlank, setDownloadingBlank] = useState(false);
 
+  const [fetchError, setFetchError] = useState<string | null>(null);
+
   useEffect(() => {
     let cancelled = false;
     setLoading(true);
+    setFetchError(null);
     const params: Record<string, any> = { page, page_size: pageSize };
     if (statusFilter) params.status = statusFilter;
     api.get("/prescriptions", { params })
@@ -469,11 +472,7 @@ export default function PrescriptionsPage() {
       })
       .catch((err: any) => {
         if (cancelled) return;
-        toast({
-          variant: "error",
-          title: "Failed to load prescriptions",
-          description: err.response?.data?.detail ?? "Something went wrong.",
-        });
+        setFetchError(err.response?.data?.detail ?? "Failed to load prescriptions");
       })
       .finally(() => {
         if (!cancelled) setLoading(false);

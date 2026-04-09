@@ -37,7 +37,7 @@ interface PillItem {
 const pillItems: PillItem[] = [
   { label: "Patients", shortLabel: "Patients", path: "/patients", icon: Users, roles: ["admin", "doctor", "nurse"] },
   { label: "Appointments", shortLabel: "Appts", path: "/appointments", icon: CalendarDays },
-  { label: "Prescriptions", shortLabel: "Rx", path: "/prescriptions", icon: ClipboardList, roles: ["admin", "doctor"] },
+  { label: "Prescriptions", shortLabel: "Prescriptions", path: "/prescriptions", icon: ClipboardList, roles: ["admin", "doctor"] },
   { label: "Medications", shortLabel: "Meds", path: "/medications", icon: Pill, roles: ["admin", "doctor", "nurse"] },
   { label: "Instructions", shortLabel: "Instructions", path: "/instructions", icon: FileText, roles: ["admin", "doctor", "nurse"] },
   { label: "Risk Calculators", shortLabel: "Risk", path: "/risk-calculators", icon: Calculator, roles: ["admin", "doctor", "nurse"] },

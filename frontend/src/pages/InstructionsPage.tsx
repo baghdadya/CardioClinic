@@ -487,7 +487,7 @@ function PreviewDialog({
     <Dialog open={emailDialogOpen} onClose={() => setEmailDialogOpen(false)}>
       <DialogHeader>
         <DialogTitle>Email Instruction</DialogTitle>
-        <DialogDescription>Send "{instruction.title_en}" as a PDF to a patient.</DialogDescription>
+        <DialogDescription>Send &ldquo;{instruction.title_en}&rdquo; as a PDF to a patient.</DialogDescription>
       </DialogHeader>
       <DialogContent>
         <label className="block">

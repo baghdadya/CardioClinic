@@ -1,8 +1,9 @@
 # DATA_MODEL.md
 ## CardioClinic Database Schema
 
-**Version:** 0.1.0  
+**Version:** 0.11.7  
 **Database:** PostgreSQL 16  
+**Last Updated:** 2026-04-09  
 
 ---
 

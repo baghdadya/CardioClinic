@@ -1,9 +1,9 @@
 # PROJECT_CONTRACT.md
 ## CardioClinic — Cardiology Practice Management System
 
-**Version:** 0.1.0  
-**Date:** 2026-04-05  
-**Status:** Pre-development  
+**Version:** 0.11.7  
+**Date:** 2026-04-09  
+**Status:** Live at https://app.maadiclinic.com — awaiting Dr. Yasser's v1.0 approval  
 
 ---
 
@@ -17,7 +17,7 @@ Modern cloud-based cardiology practice management system replacing a legacy VB6/
 
 | Decision | Choice | Rationale |
 |----------|--------|-----------|
-| Frontend | React 18 + TypeScript | PWA-capable, strong typing |
+| Frontend | React 19 + TypeScript 5.9 | PWA-capable, strong typing |
 | UI Framework | Tailwind CSS + shadcn/ui | Customizable, modern, accessible |
 | State Management | Zustand | Lightweight, simple |
 | Offline | Service Worker + IndexedDB (Dexie.js) | PWA requirement |
@@ -27,7 +27,7 @@ Modern cloud-based cardiology practice management system replacing a legacy VB6/
 | Auth | JWT + refresh tokens | Stateless, role-based |
 | API Style | REST + OpenAPI | Simple, well-documented |
 | PDF Generation | WeasyPrint or ReportLab | Prescription printing |
-| Hosting | Cloud PaaS (Render/Railway/AWS) | Auto-deploy from GitHub, managed DB |
+| Hosting | Hetzner Cloud CX22 (~EUR3.29/mo) | Self-hosted, SSH deploy, Docker Compose |
 | Delivery | PWA (Progressive Web App) | Install from browser, works offline |
 | Email | SMTP (generic) | Prescriptions, reminders, notifications |
 | Repo | GitHub | Version control |

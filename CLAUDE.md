@@ -3,7 +3,7 @@
 Modern cardiology practice management system replacing a legacy VB6/Access application (2001) for **Dr. Yasser M.K. Baghdady's** cardiology practice in Maadi, Cairo, Egypt. The legacy database (DBHT.mdb) contained 23,589 patients and 977,330 records across 25+ years — all successfully imported.
 
 - **Live:** https://app.maadiclinic.com
-- **Version:** 0.11.1 (approval candidate — awaiting Dr. Yasser's sign-off for v1.0)
+- **Version:** 0.11.4 (approval candidate — awaiting Dr. Yasser's sign-off for v1.0)
 - **GitHub:** https://github.com/baghdadya/CardioClinic (public, main branch)
 - **Owner:** Ahmed (security architect, baghdadya GitHub account)
 
@@ -156,7 +156,7 @@ CardioClinic/
 │   │   │   ├── useOnlineStatus.ts
 │   │   │   └── useSyncStatus.ts
 │   │   ├── types/index.ts       # TypeScript interfaces
-│   │   ├── version.ts           # APP_VERSION = "0.11.1" (single source of truth)
+│   │   ├── version.ts           # APP_VERSION = "0.11.4" (single source of truth)
 │   │   ├── App.tsx              # Router + conditional layout
 │   │   └── main.tsx
 │   ├── public/
@@ -303,7 +303,7 @@ All under `/api/`. 65+ endpoints across 16 routers:
 - **Audit:** GET log (paginated) + POST /audit/{id}/restore (doctor-only)
 - **Calculators:** POST ASCVD, POST CHA2DS2-VASc
 - **Interactions:** POST check, POST /interactions/sync (RxNorm API)
-- **Instructions:** CRUD for bilingual templates
+- **Instructions:** CRUD for bilingual templates + PDF generation on letterhead + email with PDF attachment
 - **Dashboard:** GET stats (today's appointments, total patients, pending prescriptions, active meds)
 - **Users:** CRUD + role assignment + password management
 - **Health:** GET /api/health → { status, version }
@@ -426,6 +426,9 @@ Stored in Zustand with `persist` middleware (localStorage key: `cardioclinic-the
 | v0.10.6 | 2026-04-08 | PDF: logo 55mm, watermark nudged down for precise middle-arabesque alignment |
 | v0.11.0 | 2026-04-08 | PDF: header sep tighter, patient-info separator after Date, arabesques below patient info. WhatsApp shares actual PDF file (Web Share API), email auto-generates PDF |
 | v0.11.1 | 2026-04-08 | PDF: patient separator now matches header (2px green). Email endpoint accepts email_override from dialog, clear error when SMTP not configured |
+| v0.11.2 | 2026-04-09 | Instruction PDF on clinic letterhead (no patient info). Download PDF button in instruction preview |
+| v0.11.3 | 2026-04-09 | SMTP configured (Gmail: maadiclinic.noreply@gmail.com). WhatsApp + Email buttons on instruction preview. Fix prescriptions blank page (useEffect rewrite) |
+| v0.11.4 | 2026-04-09 | Prescriptions page lazy-loaded (Suspense) to fix SPA blank page. Pill nav label "Rx" → "Prescriptions". Instruction email endpoint with PDF attachment |
 
 ---
 
@@ -457,19 +460,19 @@ Stored in Zustand with `persist` middleware (localStorage key: `cardioclinic-the
 - **Drug interactions UX** — Greyed-out "Check Interactions" button with no guidance text; needs "add 2+ medications" hint or auto-check
 - **No automated tests** — pytest and framework configured but zero tests written
 - **No CI/CD** — Manual git pull deploy, no GitHub Actions
-- **SMTP not configured** — Email sending requires SMTP credentials in backend/.env (see below)
-- **Prescriptions page blank on first nav** — SPA navigation to /prescriptions sometimes renders blank; works on F5 refresh. Suspected React rendering issue, needs investigation.
+- **Prescriptions page blank on first nav** — SPA navigation to /prescriptions sometimes renders blank; works on F5 refresh. Lazy-loaded with Suspense in v0.11.4 as attempted fix — needs verification. If still broken, may need error boundary or component restructuring.
 
 ### Awaiting
-- **Dr. Yasser's v1.0 approval** — v0.11.1 is the approval candidate
+- **Dr. Yasser's v1.0 approval** — v0.11.4 is the approval candidate
 - **Equipment list from Dr. Yasser** — Questionnaire sent about echo, ECG, Holter, etc.
 - **Standard admin credentials** — Need permanent login credentials (not admin/admin)
-- **SMTP credentials** — Domain maadiclinic.com has Microsoft 365 email (MX → outlook.com). Ahmed checking with brother for mailbox credentials. Settings needed in backend/.env: `SMTP_HOST=smtp.office365.com`, `SMTP_PORT=587`, `SMTP_USER=<mailbox>@maadiclinic.com`, `SMTP_PASSWORD=<password>`, `SMTP_FROM_EMAIL=<mailbox>@maadiclinic.com`
 
 ### Completed (v0.10–v0.11)
 - **Prescription PDF** — WeasyPrint generates prescription PDFs matching the original letterhead exactly. Compressed JPEG assets (~255KB total, PDFs ~365KB). Template source of truth: `Source/Prescriptions/prescription_template_reduced.pdf`
-- **WhatsApp sharing** — Shares actual PDF file via Web Share API (mobile), downloads PDF as fallback (desktop)
-- **Email sharing** — Backend auto-generates PDF before sending, accepts email_override from dialog. Needs SMTP config to work.
+- **Instruction PDF** — Same clinic letterhead as prescriptions, no patient info. Fixed bilingual templates for any patient. Download PDF, WhatsApp, Email buttons in preview dialog.
+- **WhatsApp sharing** — Shares actual PDF file via Web Share API (mobile), downloads PDF as fallback (desktop). Works for both prescriptions and instructions.
+- **Email sharing** — SMTP configured via Gmail (`maadiclinic.noreply@gmail.com`, app password). Sends PDF attachments. Works for both prescriptions and instructions. Backend auto-generates PDF if not already created.
+- **SMTP setup** — Gmail SMTP (`smtp.gmail.com:587`), app password auth. Env vars in docker-compose.yml and docker-compose.prod.yml. Domain maadiclinic.com MX still points to M365 (unused, from incomplete GoDaddy setup). Can migrate to M365 later.
 - **Branding** — Real Maadi Clinic logo on login page, header, favicon. Browser tab says "Maadi Clinic". PWA manifest updated.
 - **Settings gear** — User Management + Audit Log moved behind settings gear dropdown in modern theme header (freeing dashboard for 4-per-row cards)
 - **Medication dropdown** — Backend limit raised from 200 to 2000, both PrescriptionsPage and ClinicalForms fetch all 1,749 meds
@@ -492,14 +495,20 @@ Frontend proxies `/api` → `http://localhost:8000` via Vite config. Path alias 
 
 ### Environment Variables
 
-Backend reads from `backend/.env` (see `.env.example`):
+Backend reads from environment variables (set in docker-compose files):
 - `DATABASE_URL` — PostgreSQL async connection string
 - `SECRET_KEY` — JWT signing key
 - `DEBUG` — SQLAlchemy echo mode
-- `CORS_ORIGINS` — Allowed origins list
-- `SMTP_*` — Email configuration (host, port, user, password, TLS)
+- `CORS_ORIGINS` — Allowed origins list (prod only)
+- `SMTP_HOST` — `smtp.gmail.com`
+- `SMTP_PORT` — `587`
+- `SMTP_USER` — `maadiclinic.noreply@gmail.com`
+- `SMTP_PASSWORD` — Gmail app password (in docker-compose files, not .env)
+- `SMTP_FROM_EMAIL` — `maadiclinic.noreply@gmail.com`
+- `SMTP_FROM_NAME` — `Maadi Clinic`
+- `SMTP_USE_TLS` — `true`
 
-Production uses shell env vars: `DB_PASSWORD`, `SECRET_KEY`, `DOMAIN`.
+Production also uses shell env vars: `DB_PASSWORD`, `SECRET_KEY`, `DOMAIN`.
 
 ---
 

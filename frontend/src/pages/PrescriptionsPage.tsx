@@ -568,6 +568,9 @@ export default function PrescriptionsPage() {
       </div>
 
       {/* Prescriptions list */}
+      {fetchError && (
+        <div className="mb-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">{fetchError}</div>
+      )}
       {loading ? (
         <div className="space-y-3">
           {Array.from({ length: 5 }).map((_, i) => (

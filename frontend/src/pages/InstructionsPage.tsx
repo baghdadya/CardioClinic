@@ -442,44 +442,32 @@ function PreviewDialog({
         <button
           onClick={handleWhatsApp}
           disabled={sharingWhatsApp}
-          className={cn(
-            "inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white",
-            "transition-colors hover:bg-green-700 disabled:opacity-50"
-          )}
+          title="Share via WhatsApp"
+          className="rounded-lg bg-green-600 p-2.5 text-white transition-colors hover:bg-green-700 disabled:opacity-50"
         >
-          <MessageCircle size={16} />
-          {sharingWhatsApp ? "Sharing..." : "WhatsApp"}
+          <MessageCircle size={18} />
         </button>
         <button
           onClick={() => { setEmailAddress(""); setEmailDialogOpen(true); }}
-          className={cn(
-            "inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white",
-            "transition-colors hover:bg-blue-700"
-          )}
+          title="Send by Email"
+          className="rounded-lg bg-blue-600 p-2.5 text-white transition-colors hover:bg-blue-700"
         >
-          <Mail size={16} />
-          Email
+          <Mail size={18} />
         </button>
         <button
           onClick={handleDownloadPdf}
           disabled={downloading}
-          className={cn(
-            "inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white",
-            "transition-colors hover:bg-emerald-700 disabled:opacity-50"
-          )}
+          title="Download PDF"
+          className="rounded-lg bg-emerald-600 p-2.5 text-white transition-colors hover:bg-emerald-700 disabled:opacity-50"
         >
-          <Download size={16} />
-          {downloading ? "Generating..." : "Download PDF"}
+          <Download size={18} />
         </button>
         <button
           onClick={handlePrint}
-          className={cn(
-            "inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground",
-            "transition-colors hover:bg-primary/90"
-          )}
+          title="Print"
+          className="rounded-lg bg-primary p-2.5 text-primary-foreground transition-colors hover:bg-primary/90"
         >
-          <Printer size={16} />
-          Print
+          <Printer size={18} />
         </button>
       </DialogFooter>
     </Dialog>

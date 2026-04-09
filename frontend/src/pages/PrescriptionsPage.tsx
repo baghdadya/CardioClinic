@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
@@ -441,6 +441,9 @@ export default function PrescriptionsPage() {
   const [page, setPage] = useState(1);
   const pageSize = 15;
 
+  const [refetchKey, setRefetchKey] = useState(0);
+  const refetch = () => setRefetchKey((k) => k + 1);
+
   // Filters
   const [statusFilter, setStatusFilter] = useState("");
 
@@ -453,28 +456,30 @@ export default function PrescriptionsPage() {
   // Blank PDF
   const [downloadingBlank, setDownloadingBlank] = useState(false);
 
-  const fetchPrescriptions = useCallback(async () => {
-    setLoading(true);
-    try {
-      const params: Record<string, any> = { page, page_size: pageSize };
-      if (statusFilter) params.status = statusFilter;
-      const { data } = await api.get("/prescriptions", { params });
-      setPrescriptions(data.items ?? []);
-      setTotal(data.total ?? 0);
-    } catch (err: any) {
-      toast({
-        variant: "error",
-        title: "Failed to load prescriptions",
-        description: err.response?.data?.detail ?? "Something went wrong.",
-      });
-    } finally {
-      setLoading(false);
-    }
-  }, [page, statusFilter]);
-
   useEffect(() => {
-    fetchPrescriptions();
-  }, [fetchPrescriptions]);
+    let cancelled = false;
+    setLoading(true);
+    const params: Record<string, any> = { page, page_size: pageSize };
+    if (statusFilter) params.status = statusFilter;
+    api.get("/prescriptions", { params })
+      .then(({ data }) => {
+        if (cancelled) return;
+        setPrescriptions(data.items ?? []);
+        setTotal(data.total ?? 0);
+      })
+      .catch((err: any) => {
+        if (cancelled) return;
+        toast({
+          variant: "error",
+          title: "Failed to load prescriptions",
+          description: err.response?.data?.detail ?? "Something went wrong.",
+        });
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => { cancelled = true; };
+  }, [page, statusFilter, refetchKey]);
 
   const totalPages = Math.ceil(total / pageSize);
 
@@ -637,7 +642,7 @@ export default function PrescriptionsPage() {
                     patientId={rx.patient_id}
                     prescription={rx}
                     patientName={rx.patient_name || ""}
-                    onUpdate={fetchPrescriptions}
+                    onUpdate={refetch}
                   />
                 </div>
               )}
@@ -675,7 +680,7 @@ export default function PrescriptionsPage() {
       <NewPrescriptionDialog
         open={showNewDialog}
         onClose={() => setShowNewDialog(false)}
-        onSuccess={fetchPrescriptions}
+        onSuccess={refetch}
       />
     </motion.div>
   );

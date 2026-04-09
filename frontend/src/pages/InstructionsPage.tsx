@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import { motion } from "framer-motion";
-import { Search, FileText, X, Plus, Pencil, Trash2, Eye, Printer, Download } from "lucide-react";
+import { Search, FileText, X, Plus, Pencil, Trash2, Eye, Printer, Download, MessageCircle, Mail } from "lucide-react";
 import { cn } from "@/lib/utils";
 import api from "@/services/api";
 import {
@@ -262,6 +262,10 @@ function PreviewDialog({
   const { toast } = useToast();
   const printRef = useRef<HTMLDivElement>(null);
   const [downloading, setDownloading] = useState(false);
+  const [sharingWhatsApp, setSharingWhatsApp] = useState(false);
+  const [emailDialogOpen, setEmailDialogOpen] = useState(false);
+  const [emailAddress, setEmailAddress] = useState("");
+  const [emailing, setEmailing] = useState(false);
 
   if (!instruction) return null;
 
@@ -284,6 +288,67 @@ function PreviewDialog({
       toast({ variant: "error", title: "PDF generation failed" });
     } finally {
       setDownloading(false);
+    }
+  };
+
+  const handleWhatsApp = async () => {
+    setSharingWhatsApp(true);
+    try {
+      const { data } = await api.post(`/instructions/${instruction.id}/pdf`, null, {
+        responseType: "blob",
+      });
+      const pdfFile = new File(
+        [data],
+        `instruction_${instruction.title_en.replace(/\s+/g, "_").slice(0, 30)}.pdf`,
+        { type: "application/pdf" }
+      );
+      if (navigator.share && navigator.canShare?.({ files: [pdfFile] })) {
+        await navigator.share({
+          title: instruction.title_en,
+          text: `Patient Instructions — Maadi Clinic`,
+          files: [pdfFile],
+        });
+        toast({ variant: "success", title: "Instruction shared" });
+      } else {
+        const url = URL.createObjectURL(data);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = pdfFile.name;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+        toast({ variant: "success", title: "PDF downloaded — share via WhatsApp" });
+      }
+    } catch (err: any) {
+      if (err.name !== "AbortError") {
+        toast({ variant: "error", title: "Share failed" });
+      }
+    } finally {
+      setSharingWhatsApp(false);
+    }
+  };
+
+  const handleEmailSend = async () => {
+    if (!emailAddress.trim()) {
+      toast({ variant: "error", title: "Enter an email address" });
+      return;
+    }
+    setEmailing(true);
+    try {
+      await api.post(`/instructions/${instruction.id}/email`, {
+        email: emailAddress.trim(),
+      });
+      toast({ variant: "success", title: `Instruction emailed to ${emailAddress}` });
+      setEmailDialogOpen(false);
+    } catch (err: any) {
+      toast({
+        variant: "error",
+        title: "Email failed",
+        description: err.response?.data?.detail ?? "Something went wrong.",
+      });
+    } finally {
+      setEmailing(false);
     }
   };
 
@@ -374,6 +439,27 @@ function PreviewDialog({
           Close
         </button>
         <button
+          onClick={handleWhatsApp}
+          disabled={sharingWhatsApp}
+          className={cn(
+            "inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white",
+            "transition-colors hover:bg-green-700 disabled:opacity-50"
+          )}
+        >
+          <MessageCircle size={16} />
+          {sharingWhatsApp ? "Sharing..." : "WhatsApp"}
+        </button>
+        <button
+          onClick={() => { setEmailAddress(""); setEmailDialogOpen(true); }}
+          className={cn(
+            "inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white",
+            "transition-colors hover:bg-blue-700"
+          )}
+        >
+          <Mail size={16} />
+          Email
+        </button>
+        <button
           onClick={handleDownloadPdf}
           disabled={downloading}
           className={cn(
@@ -396,6 +482,49 @@ function PreviewDialog({
         </button>
       </DialogFooter>
     </Dialog>
+
+    {/* Email dialog */}
+    <Dialog open={emailDialogOpen} onClose={() => setEmailDialogOpen(false)}>
+      <DialogHeader>
+        <DialogTitle>Email Instruction</DialogTitle>
+        <DialogDescription>Send "{instruction.title_en}" as a PDF to a patient.</DialogDescription>
+      </DialogHeader>
+      <DialogContent>
+        <label className="block">
+          <span className="text-sm font-medium text-foreground">Email address</span>
+          <input
+            type="email"
+            className={cn(
+              "mt-1 block w-full rounded-lg border border-border bg-background px-3 py-2 text-sm",
+              "placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-ring"
+            )}
+            placeholder="patient@example.com"
+            value={emailAddress}
+            onChange={(e) => setEmailAddress(e.target.value)}
+          />
+        </label>
+      </DialogContent>
+      <DialogFooter>
+        <button
+          onClick={() => setEmailDialogOpen(false)}
+          className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary"
+        >
+          Cancel
+        </button>
+        <button
+          onClick={handleEmailSend}
+          disabled={emailing}
+          className={cn(
+            "inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white",
+            "transition-colors hover:bg-blue-700 disabled:opacity-50"
+          )}
+        >
+          <Mail size={16} />
+          {emailing ? "Sending..." : "Send Email"}
+        </button>
+      </DialogFooter>
+    </Dialog>
+    </>
   );
 }
 

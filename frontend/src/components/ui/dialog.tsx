@@ -41,7 +41,7 @@ function Dialog({ open, onClose, children }: DialogProps) {
             aria-modal="true"
             className={cn(
               "relative z-10 flex w-full max-w-lg flex-col rounded-2xl bg-white p-0",
-              "max-h-[90vh]",
+              "max-h-[80vh]",
               "shadow-2xl shadow-black/10",
               "ring-1 ring-black/[0.03]"
             )}

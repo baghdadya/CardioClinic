@@ -3,7 +3,7 @@
 Modern cardiology practice management system replacing a legacy VB6/Access application (2001) for **Dr. Yasser M.K. Baghdady's** cardiology practice in Maadi, Cairo, Egypt. The legacy database (DBHT.mdb) contained 23,589 patients and 977,330 records across 25+ years — all successfully imported.
 
 - **Live:** https://app.maadiclinic.com
-- **Version:** 0.11.4 (approval candidate — awaiting Dr. Yasser's sign-off for v1.0)
+- **Version:** 0.11.5 (approval candidate — awaiting Dr. Yasser's sign-off for v1.0)
 - **GitHub:** https://github.com/baghdadya/CardioClinic (public, main branch)
 - **Owner:** Ahmed (security architect, baghdadya GitHub account)
 
@@ -156,7 +156,7 @@ CardioClinic/
 │   │   │   ├── useOnlineStatus.ts
 │   │   │   └── useSyncStatus.ts
 │   │   ├── types/index.ts       # TypeScript interfaces
-│   │   ├── version.ts           # APP_VERSION = "0.11.4" (single source of truth)
+│   │   ├── version.ts           # APP_VERSION = "0.11.5" (single source of truth)
 │   │   ├── App.tsx              # Router + conditional layout
 │   │   └── main.tsx
 │   ├── public/
@@ -429,6 +429,7 @@ Stored in Zustand with `persist` middleware (localStorage key: `cardioclinic-the
 | v0.11.2 | 2026-04-09 | Instruction PDF on clinic letterhead (no patient info). Download PDF button in instruction preview |
 | v0.11.3 | 2026-04-09 | SMTP configured (Gmail: maadiclinic.noreply@gmail.com). WhatsApp + Email buttons on instruction preview. Fix prescriptions blank page (useEffect rewrite) |
 | v0.11.4 | 2026-04-09 | Prescriptions page lazy-loaded (Suspense) to fix SPA blank page. Pill nav label "Rx" → "Prescriptions". Instruction email endpoint with PDF attachment |
+| v0.11.5 | 2026-04-09 | Instruction PDF uses flowing footer (content on page 1, not pushed to page 2). Dialog max-height 90vh with scrollable content so footer buttons always visible |
 
 ---
 
@@ -463,7 +464,7 @@ Stored in Zustand with `persist` middleware (localStorage key: `cardioclinic-the
 - **Prescriptions page blank on first nav** — SPA navigation to /prescriptions sometimes renders blank; works on F5 refresh. Lazy-loaded with Suspense in v0.11.4 as attempted fix — needs verification. If still broken, may need error boundary or component restructuring.
 
 ### Awaiting
-- **Dr. Yasser's v1.0 approval** — v0.11.4 is the approval candidate
+- **Dr. Yasser's v1.0 approval** — v0.11.5 is the approval candidate
 - **Equipment list from Dr. Yasser** — Questionnaire sent about echo, ECG, Holter, etc.
 - **Standard admin credentials** — Need permanent login credentials (not admin/admin)
 
@@ -557,3 +558,6 @@ Production also uses shell env vars: `DB_PASSWORD`, `SECRET_KEY`, `DOMAIN`.
 - **Medication syncs re-runnable** — FDA + Egyptian syncs use ON CONFLICT DO UPDATE, show "Last synced" timestamp, idempotent.
 - **Audit restore** — POST /api/audit/{id}/restore creates new audit entry (restore is audited). Doctor-only.
 - **Sync conflicts** — Human decides, never auto-resolve, field-by-field diff, per-record resolution.
+- **Naming convention** — "CardioClinic" is the internal code/repo name. "Maadi Clinic" is the user-facing brand. Do NOT rename internal code — all user-facing text already says "Maadi Clinic".
+- **TypeScript check before push** — Always run `cd frontend && npx tsc -b --noEmit` locally before committing. Prod build has strict unused-variable checks that dev mode doesn't enforce. Never push without verifying zero TS errors.
+- **SMTP** — Gmail SMTP via `maadiclinic.noreply@gmail.com` (app password). Configured in docker-compose.yml and docker-compose.prod.yml environment vars. Can migrate to M365 (`secretary@maadiclinic.com`) later — MX records already point to M365 on GoDaddy but no mailbox created yet.

@@ -18,6 +18,13 @@ services:
       DATABASE_URL: postgresql+asyncpg://cardioclinic:${DB_PASSWORD}@db:5432/cardioclinic
       SECRET_KEY: ${SECRET_KEY}
       CORS_ORIGINS: '["http://${DOMAIN}", "https://${DOMAIN}"]'
+      SMTP_HOST: smtp.gmail.com
+      SMTP_PORT: "587"
+      SMTP_USER: maadiclinic.noreply@gmail.com
+      SMTP_PASSWORD: vnwoltluhavmlbga
+      SMTP_FROM_EMAIL: maadiclinic.noreply@gmail.com
+      SMTP_FROM_NAME: Maadi Clinic
+      SMTP_USE_TLS: "true"
     depends_on:
       db:
         condition: service_healthy

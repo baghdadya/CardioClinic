@@ -24,6 +24,13 @@ services:
     environment:
       DATABASE_URL: postgresql+asyncpg://cardioclinic:cardioclinic@db:5432/cardioclinic
       SECRET_KEY: dev-only-change-in-production
+      SMTP_HOST: smtp.gmail.com
+      SMTP_PORT: "587"
+      SMTP_USER: maadiclinic.noreply@gmail.com
+      SMTP_PASSWORD: vnwoltluhavmlbga
+      SMTP_FROM_EMAIL: maadiclinic.noreply@gmail.com
+      SMTP_FROM_NAME: Maadi Clinic
+      SMTP_USE_TLS: "true"
     depends_on:
       db:
         condition: service_healthy

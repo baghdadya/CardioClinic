@@ -388,6 +388,7 @@ function PreviewDialog({
   };
 
   return (
+    <>
     <Dialog open={open} onClose={onClose}>
       <DialogHeader>
         <DialogTitle>Preview: {instruction.title_en}</DialogTitle>

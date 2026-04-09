@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import { motion } from "framer-motion";
-import { Search, FileText, X, Plus, Pencil, Trash2, Eye, Printer } from "lucide-react";
+import { Search, FileText, X, Plus, Pencil, Trash2, Eye, Printer, Download } from "lucide-react";
 import { cn } from "@/lib/utils";
 import api from "@/services/api";
 import {
@@ -259,9 +259,33 @@ function PreviewDialog({
   onClose: () => void;
   instruction: Instruction | null;
 }) {
+  const { toast } = useToast();
   const printRef = useRef<HTMLDivElement>(null);
+  const [downloading, setDownloading] = useState(false);
 
   if (!instruction) return null;
+
+  const handleDownloadPdf = async () => {
+    setDownloading(true);
+    try {
+      const { data } = await api.post(`/instructions/${instruction.id}/pdf`, null, {
+        responseType: "blob",
+      });
+      const url = URL.createObjectURL(data);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `instruction_${instruction.title_en.replace(/\s+/g, "_").slice(0, 30)}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      toast({ variant: "success", title: "PDF downloaded" });
+    } catch (err: unknown) {
+      toast({ variant: "error", title: "PDF generation failed" });
+    } finally {
+      setDownloading(false);
+    }
+  };
 
   const handlePrint = () => {
     const content = printRef.current;
@@ -348,6 +372,17 @@ function PreviewDialog({
           className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary"
         >
           Close
+        </button>
+        <button
+          onClick={handleDownloadPdf}
+          disabled={downloading}
+          className={cn(
+            "inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white",
+            "transition-colors hover:bg-emerald-700 disabled:opacity-50"
+          )}
+        >
+          <Download size={16} />
+          {downloading ? "Generating..." : "Download PDF"}
         </button>
         <button
           onClick={handlePrint}

@@ -1,6 +1,7 @@
 from uuid import UUID
 
 from fastapi import APIRouter, HTTPException, Query, Request, status
+from fastapi.responses import FileResponse
 from sqlalchemy import select
 
 from app.core.deps import ClinicalStaff, DbSession, DoctorOnly
@@ -100,6 +101,25 @@ async def update_instruction(
     await db.commit()
     await db.refresh(instruction)
     return instruction
+
+
+@router.post("/api/instructions/{instruction_id}/pdf")
+async def generate_instruction_pdf_endpoint(
+    instruction_id: UUID,
+    db: DbSession,
+    current_user: ClinicalStaff,
+):
+    """Generate a PDF of an instruction sheet on clinic letterhead."""
+    from app.services.pdf import generate_instruction_pdf
+
+    try:
+        filepath = await generate_instruction_pdf(db, instruction_id)
+    except RuntimeError as e:
+        raise HTTPException(status_code=status.HTTP_501_NOT_IMPLEMENTED, detail=str(e))
+    except ValueError as e:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
+
+    return FileResponse(filepath, media_type="application/pdf", filename=f"instruction_{str(instruction_id)[:8]}.pdf")
 
 
 @router.delete("/api/instructions/{instruction_id}", status_code=status.HTTP_204_NO_CONTENT)

@@ -552,3 +552,121 @@ async def generate_blank_prescription_pdf(
     filepath = UPLOAD_DIR / filename
     HTML(string=html_content).write_pdf(str(filepath))
     return str(filepath)
+
+
+# ---------------------------------------------------------------------------
+# Instruction sheet PDF (same letterhead, no patient info)
+# ---------------------------------------------------------------------------
+_INSTRUCTION_CSS_EXTRA = """
+.instr-title {
+    font-size: 16pt;
+    font-weight: 700;
+    color: #2d5016;
+    margin: 4mm 0 2mm 0;
+}
+.instr-title-ar {
+    font-family: 'Noto Sans Arabic', sans-serif;
+    font-size: 15pt;
+    font-weight: 700;
+    color: #2d5016;
+    direction: rtl;
+    text-align: right;
+    margin: 0 0 4mm 0;
+}
+.instr-divider {
+    border: none;
+    border-top: 1px dashed #999;
+    margin: 4mm 0;
+}
+.instr-columns {
+    display: flex;
+    gap: 6mm;
+    margin-top: 3mm;
+}
+.instr-col { flex: 1; }
+.instr-col ul { list-style: none; padding: 0; }
+.instr-col li {
+    padding: 2px 0;
+    font-size: 10.5pt;
+    line-height: 1.55;
+    border-bottom: 1px solid #eee;
+}
+.instr-col.rtl {
+    font-family: 'Noto Sans Arabic', sans-serif;
+    direction: rtl;
+    text-align: right;
+}
+"""
+
+
+def _build_instruction_html(instruction: PatientInstruction) -> str:
+    en_lines = [ln.strip() for ln in instruction.content_en.split("\n") if ln.strip()] if instruction.content_en else []
+    ar_lines = [ln.strip() for ln in instruction.content_ar.split("\n") if ln.strip()] if instruction.content_ar else []
+
+    en_items = "".join(f"<li>{line}</li>" for line in en_lines)
+    ar_items = "".join(f"<li>{line}</li>" for line in ar_lines)
+
+    ar_section = ""
+    if ar_items:
+        ar_section = f"""
+        <hr class="instr-divider" />
+        <div class="instr-columns">
+            <div class="instr-col"><ul>{en_items}</ul></div>
+            <div class="instr-col rtl"><ul>{ar_items}</ul></div>
+        </div>
+        """
+    else:
+        ar_section = f"""
+        <div style="margin-top:3mm;"><ul style="list-style:none;padding:0;">{en_items}</ul></div>
+        """
+
+    title_ar_html = ""
+    if instruction.title_ar:
+        title_ar_html = f'<p class="instr-title-ar">{instruction.title_ar}</p>'
+
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><style>{_BASE_CSS}{_INSTRUCTION_CSS_EXTRA}</style></head>
+<body>
+
+{_decorations_html()}
+{_clinic_footer_html()}
+
+<div class="content">
+    {_clinic_header_html()}
+
+    <p class="instr-title">{instruction.title_en}</p>
+    {title_ar_html}
+
+    {ar_section}
+</div>
+
+</body>
+</html>"""
+
+
+async def generate_instruction_pdf(
+    db: AsyncSession,
+    instruction_id: UUID,
+) -> str:
+    try:
+        from weasyprint import HTML
+    except ImportError:
+        raise RuntimeError("WeasyPrint is not installed.")
+
+    result = await db.execute(
+        select(PatientInstruction).where(
+            PatientInstruction.id == instruction_id,
+            PatientInstruction.is_active.is_(True),
+        )
+    )
+    instruction = result.scalar_one_or_none()
+    if not instruction:
+        raise ValueError("Instruction not found")
+
+    html_content = _build_instruction_html(instruction)
+
+    filename = f"instruction_{str(instruction_id)[:8]}_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}.pdf"
+    filepath = UPLOAD_DIR / filename
+    HTML(string=html_content).write_pdf(str(filepath))
+    return str(filepath)

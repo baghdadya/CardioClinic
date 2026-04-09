@@ -354,6 +354,27 @@ def _clinic_footer_html() -> str:
     """
 
 
+def _clinic_footer_flowing_html() -> str:
+    """Footer that flows with content (not fixed) — for multi-page documents like instructions."""
+    stamp_uri = _img("stamp.jpg")
+    cairo_uri = _img("cairo_cardio.jpg")
+    return f"""
+    <div style="margin-top:8mm; padding: 0 16mm;">
+        <div class="footer-content">
+            <img class="footer-stamp" src="{stamp_uri}" alt="" />
+            <img class="footer-cairo" src="{cairo_uri}" alt="" />
+            <hr class="footer-sep" />
+            <p class="footer-address">45 ش النصر&ensp;ميدان الجزائر - المعادى الجديدة - القاهرة</p>
+            <p class="footer-contacts">
+                ت: 25199911 - 01284894747<br>
+                <b>WhatsApp:</b> 01001775521<br>
+                <b>eHotline:</b> www.10777.tel
+            </p>
+        </div>
+    </div>
+    """
+
+
 # ---------------------------------------------------------------------------
 # Filled prescription
 # ---------------------------------------------------------------------------
@@ -630,7 +651,6 @@ def _build_instruction_html(instruction: PatientInstruction) -> str:
 <body>
 
 {_decorations_html()}
-{_clinic_footer_html()}
 
 <div class="content">
     {_clinic_header_html()}
@@ -640,6 +660,8 @@ def _build_instruction_html(instruction: PatientInstruction) -> str:
 
     {ar_section}
 </div>
+
+{_clinic_footer_flowing_html()}
 
 </body>
 </html>"""

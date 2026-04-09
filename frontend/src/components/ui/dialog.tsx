@@ -40,7 +40,8 @@ function Dialog({ open, onClose, children }: DialogProps) {
             role="dialog"
             aria-modal="true"
             className={cn(
-              "relative z-10 w-full max-w-lg rounded-2xl bg-white p-0",
+              "relative z-10 flex w-full max-w-lg flex-col rounded-2xl bg-white p-0",
+              "max-h-[90vh]",
               "shadow-2xl shadow-black/10",
               "ring-1 ring-black/[0.03]"
             )}
@@ -96,7 +97,7 @@ function DialogDescription({ className, ...props }: React.HTMLAttributes<HTMLPar
 }
 
 function DialogContent({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  return <div className={cn("p-6", className)} {...props} />;
+  return <div className={cn("flex-1 overflow-y-auto p-6", className)} {...props} />;
 }
 
 function DialogFooter({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
